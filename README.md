@@ -367,6 +367,7 @@ self.view
 
 ## TODO
 * Polish up the various examples included in the project
+* Refactor Facebook profile example to use UIImageViews so it is more representative of a realistic view
 * Add the ability to easily pad views
 * Include examples of using UIViewprint within a table view
 * Consider using SwiftBox for better layout and performance
