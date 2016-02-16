@@ -376,7 +376,6 @@ self.view
 * Add the ability to easily pad views
 * Include examples of using UIViewprint within a table view
 * Consider using SwiftBox for better layout and performance
-* Decide whether this abomination should be put out to pasture
 
 ## Contact
 Twitter: [@alex_winston](https://twitter.com/alex_winston)
