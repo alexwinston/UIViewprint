@@ -39,6 +39,81 @@ extension NSControlActionFunctionProtocol where Self: UIControl {
 }
 extension UIControl: NSControlActionFunctionProtocol {}
 
+// UIViewable helper functions
+func width(width:CGFloat) -> UIViewable {
+    return UIViewable(style:UIViewableStyle(width:width))
+}
+
+func height(height:CGFloat) -> UIViewable {
+    return UIViewable(style:UIViewableStyle(height:height))
+}
+
+func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberOfLines:Int = 0, font:UIFont? = nil, display:UIViewableDisplay? = .Inline, style:((UILabel) -> Void)? = nil) -> UIViewable {
+    let label = UILabel()
+    label.lineBreakMode = lineBreakMode
+    label.numberOfLines = numberOfLines
+    label.text = text
+    if let font = font {
+        label.font = font
+    }
+    if let style = style {
+        style(label)
+    }
+    label.sizeToFit()
+    
+    let view = UIViewable(style: UIViewableStyle(display:display))
+    view.addSubview(label)
+    
+    return view
+}
+
+func image(name:String, contentMode:UIViewContentMode? = .ScaleAspectFit) -> UIViewable {
+    var viewable:UIViewable?
+    return image(&viewable, name:name, contentMode:contentMode)
+}
+
+func image(inout id:UIViewable?, name:String, contentMode:UIViewContentMode? = .ScaleAspectFit, width:CGFloat? = nil, height:CGFloat? = nil) -> UIViewable {
+    let imageView = UIImageView()
+    imageView.contentMode = contentMode!
+    imageView.clipsToBounds = true
+    
+    if let width = width {
+        imageView.frame.size.width = width
+    }
+    if let height = height {
+        imageView.frame.size.height = height
+    }
+    imageView.image = UIImage(named: name)
+    
+    let viewable = UIViewable(style: UIViewableStyle(display:.Inline, width:imageView.frame.width, height:imageView.frame.height))
+    viewable.addSubview(imageView)
+    
+    id = viewable
+    
+    return viewable
+}
+
+func input(placeholder:String, style:((UITextField) -> Void)?) -> UIViewable {
+    var textField:UITextField?
+    return input(&textField, placeholder: placeholder, style: style)
+}
+func input(inout id:UITextField?, placeholder:String, style:((UITextField) -> Void)?) -> UIViewable {
+    let textField = UITextField()
+    textField.placeholder = placeholder
+    textField.sizeToFit()
+    
+    if let style = style {
+        style(textField)
+    }
+    
+    let viewable = UIViewable(style:UIViewableStyle(display:.Flex(.Row), height:textField.frame.height))
+    viewable.addSubview(textField)
+    
+    id = textField
+    
+    return viewable
+}
+
 extension UIView {
     static var view:UIView {
         get {
@@ -56,48 +131,6 @@ extension UIView {
             viewable.height(height)
         }
         viewable.addSubview(view)
-        return viewable
-    }
-    
-    static func width(width:CGFloat) -> UIViewable {
-        return UIViewable(style:UIViewableStyle(width:width))
-    }
-    
-    static func label(text:String, _ lineBreakMode:NSLineBreakMode = .ByWordWrapping, _ numberOfLines:Int = 0, font:UIFont? = nil) -> UIViewable {
-        let label = UILabel()
-        label.lineBreakMode = lineBreakMode
-        label.numberOfLines = numberOfLines
-        label.text = text
-        if let font = font {
-            label.font = font
-        }
-        label.sizeToFit()
-        
-        // TODO? .label
-        let view = UIViewable(style: UIViewableStyle(display:.Inline))
-        view.addSubview(label)
-        
-        return view
-    }
-    
-    static func input(placeholder:String, style:((UITextField) -> Void)?) -> UIViewable {
-        var textField:UITextField?
-        return input(&textField, placeholder: placeholder, style: style)
-    }
-    static func input(inout id:UITextField?, placeholder:String, style:((UITextField) -> Void)?) -> UIViewable {
-        let textField = UITextField()
-        textField.placeholder = placeholder
-        textField.sizeToFit()
-        
-        if let style = style {
-            style(textField)
-        }
-        
-        let viewable = UIViewable(style:UIViewableStyle(display:.Flex(.Row), height:textField.frame.height))
-        viewable.addSubview(textField)
-        
-        id = textField
-        
         return viewable
     }
     
@@ -220,7 +253,7 @@ postfix func />(view: UIView) -> UIViewableParent {
 
 postfix operator == {}
 postfix func ==(text:String) -> UIViewable {
-    return .label(text)
+    return label(text, style:nil)
 }
 
 // TODO Subclass Open,Close,Parent
@@ -407,7 +440,8 @@ class UIViewable: UIView {
             subview.layoutSubviews()
             subview.frame.origin.y = height
             
-            if (Mirror(reflecting:subview).subjectType == UILabel.self) {
+            if (Mirror(reflecting:subview).subjectType == UILabel.self ||
+                Mirror(reflecting:subview).subjectType == UIImageView.self) {
                 subview.frame.size.width = self.frame.width
                 subview.sizeToFit()
                 
@@ -436,14 +470,16 @@ class UIViewable: UIView {
                 }
 
                 if i > 0 {
-                    let sibling = subviews[i - 1] as! UIViewable
-                    if (viewable.flexWidth || (sibling.display == .Inline && viewable.display == .Inline)) {
-                        subview.frame.origin.x = sibling.frame.origin.x + sibling.frame.width
-                        subview.frame.origin.y = sibling.frame.origin.y
-                        
-                        height -= subview.frame.height
-                        if ((self.frame.origin.y + height) < (self.frame.origin.y + subview.frame.origin.y + subview.frame.height)) {
-                            height = (subview.frame.origin.y + subview.frame.height)
+                    if (Mirror(reflecting:subviews[i - 1]).subjectType == UIViewable.self) {
+                        let sibling = subviews[i - 1] as! UIViewable
+                        if (viewable.flexWidth || (sibling.display == .Inline && viewable.display == .Inline)) {
+                            subview.frame.origin.x = sibling.frame.origin.x + sibling.frame.width
+                            subview.frame.origin.y = sibling.frame.origin.y
+                            
+                            height -= subview.frame.height
+                            if ((self.frame.origin.y + height) < (self.frame.origin.y + subview.frame.origin.y + subview.frame.height)) {
+                                height = (subview.frame.origin.y + subview.frame.height)
+                            }
                         }
                     }
                 }

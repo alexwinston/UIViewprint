@@ -238,73 +238,87 @@ Of particular interest is the ability to associate wrapped components to variabl
 
 ### Example 6a
 
-This example demonstrates a UIViewprint implementation of the Facebook profile page developed to highlight the features of the [Neon](https://github.com/mamaral/Neon) framework
+This example demonstrates a UIViewprint implementation of the Facebook profile page developed to highlight the features of the [Neon](https://github.com/mamaral/Neon) framework. Unlike Neon however all the code required to layout the view is listed below.
  
 ```
-class ActionView: UIViewable {
-    init(_ actionText:String) {
-        super.init()
-        
-        self
-            < UIViewable().align(.Top(.Center)).height(60).backgroundColor(.orangeColor())>>
-            < actionText==.align(.Top(.Center)).backgroundColor(.yellowColor())>>
-    }
-}
-
 class ViewController: UIViewableController {
-    var bannerView:UIViewable = .view(.style(backgroundColor:.lightGrayColor()))
-    var avatarView:UIViewable = UIViewable(style:UIViewableStyle(backgroundColor:.grayColor()))
+    var bannerView:UIViewable = UIViewable()
+    var avatarImageView:UIViewable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Example 6"
-        self.edgesForExtendedLayout = UIRectEdge.None;
+        bannerView.layer.contents = UIImage(named:"banner")?.CGImage
         
-        self.view = UIViewable()
         self.view
-            < bannerView+>
-                < .view(.style(.Flex(.Row), align:.Bottom(.Left)))+>
-                    < .view(.style(.Flex(.Row)))+>
-                        < avatarView>>
-                        < .view(.style(align:.Middle(.Left)))+>
-                            < "Alex"==.display(.Block)>>
-                            < "Winston"==.display(.Block)>>
+            < .view(.style(backgroundColor:.lightGrayColor()))+>
+                < bannerView+>
+                    < .view(.style(.Flex(.Row), align:.Bottom(.Left)))+>
+                        < .view(.style(.Flex(.Row)))+>
+                            < width(10)>>
+                            < image(&avatarImageView, name:"avatar")>>
+                            < .view(.style(align:.Middle(.Left)))+>
+                                < label("Alex", display:.Block, style:avatarNameStyle)>>
+                                < label("Winston", display:.Block, style:avatarNameStyle)>>
+                            < .view/>
                         < .view/>
+                        < image("camera").align(.Bottom(.Left)).width(30).height(30)>>
+                        < width(10)>>
                     < .view/>
-                    < UIViewable(style:UIViewableStyle(align:.Bottom(.Left), width:30, height:30, backgroundColor:.blueColor()))>>
                 < .view/>
+                < UIViewable().display(.Flex(.Row))+>
+                    < buttonBarItemView("Post", labelAlign:.Top(.Center), imageName:"post", imageDisplay:.Block, imageAlign:.Top(.Center))>>
+                    < buttonBarItemView("Update Info", labelAlign:.Top(.Center), imageName:"updateInfo", imageDisplay:.Block, imageAlign:.Top(.Center))>>
+                    < buttonBarItemView("Activity Log", labelAlign:.Top(.Center), imageName:"activityLog", imageDisplay:.Block, imageAlign:.Top(.Center))>>
+                    < buttonBarItemView("More", labelAlign:.Top(.Center), imageName:"more", imageDisplay:.Block, imageAlign:.Top(.Center))>>
+                < .view/>
+                < height(10)>>
+                < UIViewable().display(.Flex(.Row))+>
+                    < width(10)>>
+                    < imageLabelView("About", imageName:"about")>>
+                    < width(10)>>
+                    < imageLabelView("Photos", imageName:"photos")>>
+                    < width(10)>>
+                    < imageLabelView("Friends", imageName:"friends")>>
+                    < width(10)>>
+                < .view/>
+                < height(10)>>
+                < UIViewable().display(.Flex(.Row))+>
+                    < width(10)>>
+                    < buttonBarItemView("Post", imageName:"post")>>
+                    < buttonBarItemView("Photo", imageName:"activityLog")>>
+                    < buttonBarItemView("Life Event", imageName:"more")>>
+                    < width(10)>>
+                < .view/>
+                < height(10)>>
             < .view/>
-            < UIViewable().display(.Flex(.Row))+>
-                < UIViewable()+>
-                    < .view(.style(align:.Top(.Center), width:30, height:30, backgroundColor:.greenColor()))>>
-                    < "Test"==.align(.Top(.Center))>>
-                < .view/>
-                < UIViewable()+>
-                    < UIViewable().align(.Top(.Center)).width(30).height(30).backgroundColor(.greenColor())>>
-                    < "Test"==.align(.Top(.Center))>>
-                < .view/>
-                < UIViewable()+>
-                    < UIViewable().align(.Top(.Center)).width(30).height(30).backgroundColor(.greenColor())>>
-                    < "Test"==.align(.Top(.Center))>>
-                < .view/>
-                < UIViewable()+>
-                    < UIViewable().align(.Top(.Center)).width(30).height(30).backgroundColor(.greenColor())>>
-                    < "Test"==.align(.Top(.Center))>>
-                < .view/>
-            < .view/>
-            < UIViewable().display(.Flex(.Row))+>
-                < UIViewable().width(10)>>
-                < ActionView("About").backgroundColor(.yellowColor())>>
-                < UIViewable().width(10)>>
-                < ActionView("Photos").backgroundColor(.yellowColor())>>
-                < .width(10)>>
-                < UIViewable()+>
-                    < UIViewable().align(.Top(.Center)).height(60).backgroundColor(.orangeColor())>>
-                    < "Test"==.align(.Top(.Center)).backgroundColor(.yellowColor())>>
-                < .view/>
-                < UIViewable().width(10)>>
-            < .view/>
+    }
+    
+    func buttonBarItemView(labelText:String, labelAlign:UIViewableAlign? = .Middle(.Left), imageName:String, imageDisplay:UIViewableDisplay? = .Inline, imageAlign:UIViewableAlign? = .Top(.Left)) -> UIView {
+        func buttonLabelStyle(label:UILabel) {
+            label.textColor = UIColor(red: 106/255.0, green: 113/255.0, blue: 127/255.0, alpha: 1.0)
+            label.font = .systemFontOfSize(13.0)
+        }
+        
+        return UIViewable().backgroundColor(.whiteColor())
+            < image(imageName).display(imageDisplay!).align(imageAlign!).width(28).height(28)>>
+            < label(labelText, style:buttonLabelStyle).align(labelAlign!)>>
+    }
+    
+    func imageLabelView(labelText:String, imageName:String) -> UIView {
+        func imageLabelStyle(label:UILabel) {
+            label.textColor = UIColor.blackColor()
+            label.font = UIFont.boldSystemFontOfSize(14.0)
+        }
+        
+        return UIViewable().backgroundColor(.whiteColor())
+            < image(imageName, contentMode:.ScaleAspectFill).display(.Block).align(.Top(.Center)).height(60)>>
+            < label(labelText, style:imageLabelStyle).align(.Top(.Center))>>
+    }
+
+    func avatarNameStyle(label:UILabel) {
+        label.font = UIFont(name: "HelveticaNeue-Light", size: 33)
+        label.textColor = .whiteColor()
     }
 
     override func viewWillLayoutSubviews() {
@@ -316,7 +330,7 @@ class ViewController: UIViewableController {
         let avatarSize = bannerHeight * avatarHeightMultipler
         
         self.bannerView.height(bannerHeight)
-        self.avatarView.width(avatarSize).height(avatarSize)
+        self.avatarImageView!.width(avatarSize).height(avatarSize)
     }
 }
 ```

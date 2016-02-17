@@ -102,7 +102,7 @@ class ViewController1: UIScrollViewableController {
                                     < .view(.style(height:10, width:1, backgroundColor:.blackColor()))>>
                                     < .view>>
                                 < .view/>
-                                < .label("(\(appModel.reviews))", font:UIFont.systemFontOfSize(12))>>
+                                < label("(\(appModel.reviews))", font:UIFont.systemFontOfSize(12))>>
                             < .view/>
                             < "$4.99"==.width(50).height(25).backgroundColor(.cyanColor())>>
                         < .view/>

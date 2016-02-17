@@ -21,8 +21,8 @@ class ViewController5: UIViewableController {
         self.view
             < UIViewable(style:UIViewableStyle(display:.Flex(.Row), backgroundColor:.lightGrayColor()))+>
                 < UIViewable(style:UIViewableStyle(display:.Inline, width:50, height:50, backgroundColor:.yellowColor()))>>
-                < .label("This is a test of the emergency broadcast system.", .ByTruncatingTail, 1)>>
-                < .label("This is a test of the emergency broadcast system.", .ByTruncatingTail, 2)>>
+                    < label("This is a test of the emergency broadcast system.", lineBreakMode:NSLineBreakMode.ByTruncatingTail, numberOfLines:1)>>
+                    < label("This is a test of the emergency broadcast system.", lineBreakMode:.ByTruncatingTail, numberOfLines:2)>>
             < .view/>
     }
 }
