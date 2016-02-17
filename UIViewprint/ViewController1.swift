@@ -93,13 +93,13 @@ class ViewController1: UIScrollViewableController {
                             < UIViewable().display(.Flex(.Row)).align(.Bottom(.Left))+>
                                 < UIViewable().display(.Flex(.Row)).align(.Middle(.Left))+>
                                     < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < .view(.style(height:10, width:1, backgroundColor:.blackColor()))>>
+                                    < .view(style(height:10, width:1, backgroundColor:.blackColor()))>>
                                     < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < .view(.style(height:10, width:1, backgroundColor:.blackColor()))>>
+                                    < .view(style(height:10, width:1, backgroundColor:.blackColor()))>>
                                     < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < .view(.style(height:10, width:1, backgroundColor:.blackColor()))>>
+                                    < .view(style(height:10, width:1, backgroundColor:.blackColor()))>>
                                     < .view>>
-                                    < .view(.style(height:10, width:1, backgroundColor:.blackColor()))>>
+                                    < .view(style(height:10, width:1, backgroundColor:.blackColor()))>>
                                     < .view>>
                                 < .view/>
                                 < label("(\(appModel.reviews))", font:UIFont.systemFontOfSize(12))>>
@@ -109,7 +109,7 @@ class ViewController1: UIScrollViewableController {
                     < .view/>
                 < .view/>
                 < .flexRow()+>
-                    < .view(.style(width:15, height:15, backgroundColor:.orangeColor()))>>
+                    < .view(style(width:15, height:15, backgroundColor:.orangeColor()))>>
                     < "Offers Apple Watch App for iPhone">>
                 < .view/>
 //                < .view+>
@@ -128,13 +128,13 @@ class ViewController1: UIScrollViewableController {
                         < appModel.developer>>
                     < .view/>
                     < .flexRow()+>
-                        < .view(.style(width:120))+>
+                        < .view(style(width:120))+>
                             < "Category:"==.align(.Top(.Right))>>
                         < .view/>
                         < appModel.category>>
                     < .view/>
                     < .flexRow()+>
-                        < .view(.style(width:120))+>
+                        < .view(style(width:120))+>
                             < "Compatibility:"==.align(.Top(.Right))>>
                         < .view/>
                         < "Requires iOS 9.0 or later. Compatible with iPhone, iPad, and iPos touch.">>

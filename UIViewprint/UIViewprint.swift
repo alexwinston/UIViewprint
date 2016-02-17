@@ -114,6 +114,11 @@ func input(inout id:UITextField?, placeholder:String, style:((UITextField) -> Vo
     return viewable
 }
 
+// UIViewableStyle helper functions
+func style(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, width:CGFloat = -1, height:CGFloat = -1, backgroundColor:UIColor? = nil) -> UIViewableStyle {
+    return UIViewableStyle(display: display, align: align, width: width, height: height, backgroundColor: backgroundColor)
+}
+
 extension UIView {
     static var view:UIView {
         get {
@@ -359,10 +364,6 @@ struct UIViewableStyle {
         self.height = height
         self.width = width
         self.backgroundColor = backgroundColor
-    }
-    
-    static func style(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, width:CGFloat = -1, height:CGFloat = -1, backgroundColor:UIColor? = nil) -> UIViewableStyle {
-        return UIViewableStyle(display: display, align: align, width: width, height: height, backgroundColor: backgroundColor)
     }
 }
 

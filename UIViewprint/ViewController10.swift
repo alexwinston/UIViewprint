@@ -47,13 +47,13 @@ class ViewController10: UIViewableController {
             < .flexColumn()+>
                 < .view>>
                 < .flexRow()+>
-                    < .view(.style(width:10))>>
+                    < .view(style(width:10))>>
                     < .view+>
                         < input(&emailTextField, placeholder:"Email", style:largeRoundedStyle)>>
-                        < .view(.style(height:10))>>
+                        < .view(style(height:10))>>
                         < input("Password", style:largeRoundedStyle)>>
                     < .view/>
-                    < .view(.style(width:10))>>
+                    < .view(style(width:10))>>
                 < .view/>
                 < .view>>
                 < .view+>

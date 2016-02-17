@@ -26,14 +26,14 @@ class ViewController7: UIViewableController {
         bannerView.layer.contents = UIImage(named:"banner")?.CGImage
         
         self.view
-            < .view(.style(backgroundColor:.lightGrayColor()))+>
+            < .view(style(backgroundColor:.lightGrayColor()))+>
                 < bannerView+>
-                    < .view(.style(.Flex(.Row), align:.Bottom(.Left)))+>
-                        < .view(.style(.Flex(.Row)))+>
+                    < .view(style(.Flex(.Row), align:.Bottom(.Left)))+>
+                        < .view(style(.Flex(.Row)))+>
                             < width(10)>>
                             // TODO Incorrect height when orientation changes from landscape to portrait
                             < image(&avatarImageView, name:"avatar")>>
-                            < .view(.style(align:.Middle(.Left)))+>
+                            < .view(style(align:.Middle(.Left)))+>
                                 < label("Alex", display:.Block, style:avatarNameStyle)>>
                                 < label("Winston", display:.Block, style:avatarNameStyle)>>
                             < .view/>

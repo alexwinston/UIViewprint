@@ -339,7 +339,7 @@ class ViewController: UIViewableController {
 
 ## View alignment
 
-UIViewprint makes view alignment within a parent relatively painless. Views can be aligned vertically (Top, Middle, Bottom) and horizontally (Left, Center, Right). The example below illustrates how labels can be aligned but because they are inline views by default the layout is slightly more complex than other views.
+UIViewprint makes view alignment within a parent relatively painless. Views can be aligned vertically (Top, Middle, Bottom) and horizontally (Left, Center, Right).
 
 ### Example 7
 
@@ -347,36 +347,36 @@ UIViewprint makes view alignment within a parent relatively painless. Views can 
 self.view
     < .flexColumn()+>
         < .flexRow()+>
-            < .view+>
-                < "Top Left"==.align(.Top(.Left)).backgroundColor(.yellowColor())>>
+            < .flexColumn()+>
+                < label("Top Left").align(.Top(.Left)).backgroundColor(.yellowColor())>>
             < .view/>
-            < .view+>
-                < "Top Center"==.align(.Top(.Center)).backgroundColor(.orangeColor())>>
+            < .flexColumn()+>
+                < label("Top Center").align(.Top(.Center)).backgroundColor(.orangeColor())>>
             < .view/>
-            < .view+>
-                < "Top Right"==.align(.Top(.Right)).backgroundColor(.redColor())>>
+            < .flexColumn()+>
+                < label("Top Right").align(.Top(.Right)).backgroundColor(.redColor())>>
             < .view/>
         < .view/>
-        < UIViewable().style(UIViewableStyle(display:.Flex(.Row), backgroundColor:.lightGrayColor()))+>
-            < UIViewable().align(.Middle(.Left))+>
-                < "Mid Left"==.backgroundColor(.yellowColor())>>
+        < .view(style(.Flex(.Row), backgroundColor:.lightGrayColor()))+>
+            < .flexColumn()+>
+                < label("Mid Left").align(.Middle(.Left)).backgroundColor(.yellowColor())>>
             < .view/>
-            < UIViewable().align(.Middle(.Center))+>
-                < "Mid Center"==.align(.Middle(.Center)).backgroundColor(.orangeColor())>>
+            < .flexColumn()+>
+                < label("Mid Center").align(.Middle(.Center)).backgroundColor(.orangeColor())>>
             < .view/>
-            < UIViewable().align(.Middle(.Right))+>
-                < "Mid Right"==.align(.Middle(.Right)).backgroundColor(.redColor())>>
+            < .flexColumn()+>
+                < label("Mid Right").align(.Middle(.Right)).backgroundColor(.redColor())>>
             < .view/>
         < .view/>
         < .flexRow()+>
-            < UIViewable().align(.Bottom(.Left))+>
-                < "Bottom Left Test"==.align(.Bottom(.Left)).backgroundColor(.yellowColor())>>
+            < .flexColumn()+>
+                < label("Bottom Left Test").align(.Bottom(.Left)).backgroundColor(.yellowColor())>>
             < .view/>
-            < UIViewable().align(.Bottom(.Center))+>
-                < "Bottom Ctr"==.align(.Bottom(.Center)).backgroundColor(.orangeColor())>>
+            < .flexColumn()+>
+                < label("Bottom Ctr").align(.Bottom(.Center)).backgroundColor(.orangeColor())>>
             < .view/>
-            < UIViewable().align(.Bottom(.Right))+>
-                < "Bottom Right"==.align(.Bottom(.Right)).backgroundColor(.redColor())>>
+            < .flexColumn()+>
+                < label("Bottom Right").align(.Bottom(.Right)).backgroundColor(.redColor())>>
             < .view/>
         < .view/>
     < .view/>
