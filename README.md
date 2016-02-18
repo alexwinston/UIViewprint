@@ -12,7 +12,7 @@ a blueprint for success.
 
 <table><tr>
 <td width="40%">
-<img src="images/example1.png">
+<img src="images/example1.png"></img>
 </td>
 <td width="60%">
 <pre lang="swift" style="font-size:8px;line-height:8px;">
