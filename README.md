@@ -10,13 +10,9 @@ iOS view layout completely reimagined
 > **Blueprint** /ˈbluːˌprɪnt/ : a detailed outline or plan of action:
 a blueprint for success.
 
-<table>
-<tr>
-<td width="40%">
-<img src="./images/example1.png"></img>
-</td>
-<td width="60%">
-<pre lang="swift">
+![](images/example1.png)
+
+```
 class ViewController1: UIScrollViewableController {
     
     var sellerItem = UIViewable()
@@ -182,10 +178,7 @@ class ViewController1: UIScrollViewableController {
         self.compatibilityItem.width(informationItemWidth)
     }
 }
-</pre>
-</td>
-</tr>
-</table>
+```
 
 ## Disclaimer
 
