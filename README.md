@@ -10,48 +10,187 @@ iOS view layout completely reimagined
 > **Blueprint** /ˈbluːˌprɪnt/ : a detailed outline or plan of action:
 a blueprint for success.
 
-```swift
-var emailTextField:UITextField?
-var passwordTextField:UITextField?
+<table><tr>
+<td width="40%">
+<img src="images/example1.png">
+</td>
+<td width="60%">
+<pre lang="swift" style="font-size:8px;line-height:8px;">
+class ViewController1: UIScrollViewableController {
     
-self.view
-    < .view+>
-	    < "Please enter your login credentials"==.align(.Top(.Center))>>
-	    < .view(.style(height:10))>>
-	    < .flexRow()+>
-	        < .view(.style(width:100))+>
-	            < "Email:"==.align(.Top(.Right))>>
-	        < .view/>
-	        < .input(&emailTextField, placeholder:"john@doe.com", style:roundedCorners)>>
-	    < .view/>
-	    < .flexRow()+>
-	        < .view(.style(width:100))+>
-	            < "Password:"==.align(.Top(.Right))>>
-	        < .view/>
-	        < .input(&passwordTextField, placeholder:"", style:roundedCorners)>>
-	    < .view/>
-	    < .view(.style(height:20))>>
-	    < .button("Login", display:.Flex(.Row), touch:login)>>
-	< .view/>
+    var sellerItem = UIViewable()
+    var categoryItem = UIViewable()
+    var compatibilityItem = UIViewable()
     
-func roundedCorners(textField:UITextField) {
-    textField.borderStyle = .RoundedRect
-}
-    
-func login(button:UIButton) {
-    print(emailTextField!.text)
-}
-```
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let appDetails = AppDetails()
+        appDetails.name = "Day One 2 Journal + Notes"
+        appDetails.developer = "Bloom Built, LLC"
+        appDetails.rating = " 4+"
+        appDetails.category = "Lifestyle"
+        appDetails.price = "4.99"
+        appDetails.reviews = 385
+        appDetails.editorsNotes = "It's hard to make the best even better, but the sequel to Day One lives up to the expectations -- and then some."
 
-![UIViewprint Example 1](images/example1.png)
+        super.scrollView
+            < .view+>
+                < .view(style(height:10))>>
+                < .flexRow()+>
+                    < width(10)>>
+                    < image("logo").width(80).height(80).style(logoStyle)>>
+                    < width(10)>>
+                    < .view+>
+                        < .flexRow()+>
+                            < appDetails.name>>
+                            < label(appDetails.rating, style:ratingLabelStyle).width(20)>>
+                            < width(10)>>
+                        < .view/>
+                        < .view+>
+                            < label("\(appDetails.developer)", font:.systemFontOfSize(12))>>
+                            < label(" >", font:.systemFontOfSize(11))>>
+                        < .view/>
+                        < .view+>
+                        < label("Editors' Choice", style:editorsChoiceLabelStyle)>>
+                        < .view/>
+                        < .flexRow()+>
+                            < .view(style(.Flex(.Row), align:.Bottom(.Left)))+>
+                                < .view(style(.Flex(.Row), align:.Middle(.Left), width:55))+>
+                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
+                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
+                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
+                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
+                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
+                                < .view/>
+                                < label("(\(appDetails.reviews))", font:.systemFontOfSize(10))>>
+                            < .view/>
+                            < width(50).height(20).style(priceStyle)+>
+                                < .view(style(.Inline, width:3))>>
+                                < label("+", font:.boldSystemFontOfSize(8)).align(.Top(.Left))>>
+                                < label("$\(appDetails.price)", font:.boldSystemFontOfSize(12)).align(.Middle(.Left))>>
+                            < .view/>
+                            < width(10)>>
+                        < .view/>
+                    < .view/>
+                < .view/>
+                < height(10)>>
+                < .flexRow()+>
+                    < width(10)>>
+                    < image("logo").width(15).height(15).style(watchLogoStyle)>>
+                    < width(5)>>
+                    < label("Offers Apple Watch App for iPhone", style:watchLabelStyle).align(.Middle(.Left))>>
+                < .view/>
+                < height(10)>>
+                < segment(items:["Details", "Reviews", "Related"], color:.grayColor()).align(.Top(.Center))>>
+                < hr(padding(top:10), color:.lightGrayColor())>>
+                < .flexRow()+>
+                    < width(10)>>
+                    < .view+>
+                        < .view(style(height:40))+>
+                            < label("App Store Editors' Notes").align(.Middle(.Left))>>
+                        < .view/>
+                        < label(appDetails.editorsNotes, display:.Block, font:.systemFontOfSize(12))>>
+                        < hr(padding(top:10, bottom:10), color:.lightGrayColor())>>
+                        < label("Supports", display:.Block)>>
+                        < height(10)>>
+                        < .flexRow()+>
+                            < image("gamecenter").width(30).height(30)>>
+                            < .view+>
+                                < label("Game Center", font:.systemFontOfSize(12), display:.Block)>>
+                                < label("Challenge friends and check leaderboards and achievements.", display:.Block, style:informationLabelStyle)>>
+                            < .view/>
+                        < .view/>
+                        < hr(padding(top:10, bottom:10), color:.lightGrayColor())>>
+                        < label("Information", display:.Block)>>
+                        < .view+>
+                            < informationItem(&sellerItem, title:"Seller", description:appDetails.developer)>>
+                            < informationItem(&categoryItem, title:"Category", description:appDetails.category)>>
+                            < informationItem(&compatibilityItem, title:"Compatibility", description:"Requires iOS 9.0 or later. Compatible with iPhone, iPad, and iPos touch.")>>
+                        < .view/>
+                    < .view/>
+                    < width(10)>>
+                < .view/>
+            < .view/>
+    }
+    
+    func informationItem(inout view:UIViewable, title:String, description:String) -> UIView {
+        return UIViewable()
+            < .flexRow()+>
+                < view+>
+                    < label(title, style:informationLabelStyle).align(.Top(.Right))>>
+                < .view/>
+                < width(10)>>
+                < label(description, font:.systemFontOfSize(12))>>
+            < .view/>
+    }
+    
+    func layerStyle(layer:CALayer, borderWidth:CGFloat, borderColor:UIColor, cornerRadius:CGFloat = 0) {
+        layer.borderWidth = borderWidth
+        layer.borderColor = borderColor.CGColor
+        layer.cornerRadius = cornerRadius
+    }
+    
+    func logoStyle(view:UIView) {
+        layerStyle(view.layer, borderWidth:0.5, borderColor:.grayColor(), cornerRadius:15.0)
+        view.clipsToBounds = true
+    }
+    
+    func watchLogoStyle(view:UIView) {
+        layerStyle(view.layer, borderWidth:0.5, borderColor:.grayColor(), cornerRadius:7.5)
+        view.clipsToBounds = true
+    }
+    
+    func watchLabelStyle(label:UILabel) {
+        label.textColor = UIColor(red: 106/255.0, green: 113/255.0, blue: 127/255.0, alpha: 1.0)
+        label.font = .boldSystemFontOfSize(10.0)
+    }
+    
+    func ratingLabelStyle(label:UILabel) {
+        layerStyle(label.superview!.layer, borderWidth:1, borderColor:.grayColor())
+        label.textColor = .lightGrayColor()
+        label.font = .systemFontOfSize(11)
+        label.textAlignment = .Right
+    }
+    
+    func editorsChoiceLabelStyle(label:UILabel) {
+        label.superview!.backgroundColor = .grayColor()
+        label.superview!.layer.cornerRadius = 6
+        label.superview!.clipsToBounds = true
+        
+        label.textColor = .whiteColor()
+        label.font = .systemFontOfSize(10.0)
+    }
+    
+    func priceStyle(view:UIView) {
+        layerStyle(view.layer, borderWidth:1, borderColor:view.self.tintColor!, cornerRadius:4.0)
+        view.clipsToBounds = true
+    }
+    
+    func informationLabelStyle(label:UILabel) {
+        label.textColor = .lightGrayColor()
+        label.font = .systemFontOfSize(12.0)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        let informationItemWidth = CGFloat(self.view.frame.width * 0.25)
+        self.sellerItem.width(informationItemWidth)
+        self.categoryItem.width(informationItemWidth)
+        self.compatibilityItem.width(informationItemWidth)
+    }
+}
+</pre>
+</td>
+</tr>
+</table>
 
 ## Disclaimer
 
-**UIViewprint** is an experiment that pushes Swift operator overloading and various language features to the absolute limit.  It also regularly crashes the Xcode editor but I haven't had time to submit any bug reports.  That being said I have been pleasently surprised with what is possible in Swift. I am very interested in getting feedback about the progress of the project so far and whether it is worth developing further.
+**UIViewprint** is an experiment that pushes Swift operator overloading and various language features to the absolute limit.  It also regularly crashes the Xcode editor but I haven't had time to submit any bug reports.  That being said I have been pleasently surprised with what is possible in Swift.
 
-I would also note that the layout logic is only about 95% complete and it is not optimized for performance.  Pull requests are welcome.
-
-**This is primarily a thought experiment to demonstrate how layout can be simplified with Swift operator overloading.  The operators chosen are ment to mimic HTML but other operators might actually be better. Constructive feedback is welcomed.**
+**This is primarily a thought experiment to demonstrate how layout can be simplified with Swift operator overloading.  The operators chosen are ment to mimic HTML but other operators might actually be better.**
 
 ## The Basics
 UIViewprint grew out of various shortcomings and frustrations with Interface Builder, Auto Layout, Stack Views and the myriad of Swift frameworks that attempt to make Auto Layout easier. In an effort to reimagine how layout could be improved a structure similar to HTML and CSS was adopted given it's ubiquity and surprising ability to model heirarchical views quite well.
