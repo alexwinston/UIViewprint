@@ -48,6 +48,13 @@ func height(height:CGFloat) -> UIViewable {
     return UIViewable(style:UIViewableStyle(height:height))
 }
 
+func hr(padding:UIViewablePadding, color:UIColor) -> UIView {
+    return UIViewable()
+        < UIViewable().height(padding.top)>>
+        < UIViewable().height(0.5).backgroundColor(color)>>
+        < UIViewable().height(padding.bottom)>>
+}
+
 func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberOfLines:Int = 0, font:UIFont? = nil, display:UIViewableDisplay? = .Inline, style:((UILabel) -> Void)? = nil) -> UIViewable {
     let label = UILabel()
     label.lineBreakMode = lineBreakMode
@@ -56,13 +63,14 @@ func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberO
     if let font = font {
         label.font = font
     }
+    
+    let view = UIViewable(style: UIViewableStyle(display:display))
+    view.addSubview(label)
+    
     if let style = style {
         style(label)
     }
     label.sizeToFit()
-    
-    let view = UIViewable(style: UIViewableStyle(display:display))
-    view.addSubview(label)
     
     return view
 }
@@ -95,7 +103,7 @@ func image(inout id:UIViewable?, name:String, contentMode:UIViewContentMode? = .
 
 func input(placeholder:String, style:((UITextField) -> Void)?) -> UIViewable {
     var textField:UITextField?
-    return input(&textField, placeholder: placeholder, style: style)
+    return input(&textField, placeholder:placeholder, style:style)
 }
 func input(inout id:UITextField?, placeholder:String, style:((UITextField) -> Void)?) -> UIViewable {
     let textField = UITextField()
@@ -114,9 +122,27 @@ func input(inout id:UITextField?, placeholder:String, style:((UITextField) -> Vo
     return viewable
 }
 
+func segment(display:UIViewableDisplay? = .Inline, items:[String], color:UIColor?) -> UIViewable {
+    let segmentedControl = UISegmentedControl(items: items)
+    segmentedControl.selectedSegmentIndex = 0
+    if let color = color {
+        segmentedControl.tintColor = color
+    }
+    
+    let viewable = UIViewable(style:UIViewableStyle(display:display))
+    viewable.addSubview(segmentedControl)
+    
+    return viewable
+}
+
+// UIviewablePadding helper functions
+func padding(top top:CGFloat = 0, right:CGFloat = 0, bottom:CGFloat = 0, left:CGFloat = 0) -> UIViewablePadding {
+    return UIViewablePadding(top:top, right:right, bottom:bottom, left:left)
+}
+
 // UIViewableStyle helper functions
-func style(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, width:CGFloat = -1, height:CGFloat = -1, backgroundColor:UIColor? = nil) -> UIViewableStyle {
-    return UIViewableStyle(display: display, align: align, width: width, height: height, backgroundColor: backgroundColor)
+func style(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, width:CGFloat? = -1, height:CGFloat? = -1, backgroundColor:UIColor? = nil) -> UIViewableStyle {
+    return UIViewableStyle(display:display, align:align, width:width!, height:height!, backgroundColor:backgroundColor)
 }
 
 extension UIView {
@@ -213,17 +239,14 @@ extension UIView {
 infix operator < { associativity left }
 func <(parent: UIView, child: UIViewableOpen) -> UIView {
     parent.addSubview(child.view)
-    //    print("\(parent.tag) > \(child.view.tag)")
     return child.view
 }
 func <(parent: UIView, child: UIViewableClose) -> UIView {
     parent.addSubview(child.view)
-    //    print("\(parent.tag) > \(child.view.tag)")
     return parent
 }
 func <(parent: UIView, child: UIViewableParent) -> UIView {
     if (child.view.tag != .close) { parent.addSubview(child.view) }
-    //    print("\(parent.tag) > \(child.view.tag)")
     if let superview = parent.superview {
         return superview
     } else {
@@ -240,7 +263,6 @@ postfix func +>(view: UIView) -> UIViewableOpen {
 postfix operator >> {}
 postfix func >>(view: UIView) -> UIViewableClose {
     if (Mirror(reflecting: view).subjectType != UIViewable.self) {
-        // TODO tag?
         let viewable = UIViewable(style:UIViewableStyle())
         viewable.addSubview(view)
         return UIViewableClose(view:viewable)
@@ -364,6 +386,20 @@ struct UIViewableStyle {
         self.height = height
         self.width = width
         self.backgroundColor = backgroundColor
+    }
+}
+
+struct UIViewablePadding {
+    var top:CGFloat
+    var right:CGFloat
+    var bottom:CGFloat
+    var left:CGFloat
+    
+    init(top:CGFloat = 0, right:CGFloat = 0, bottom:CGFloat = 0, left:CGFloat = 0) {
+        self.top = top
+        self.right = right
+        self.bottom = bottom
+        self.left = left
     }
 }
 

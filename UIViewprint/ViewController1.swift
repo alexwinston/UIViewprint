@@ -11,12 +11,14 @@ import UIKit
 
 infix operator < { associativity left }
 
-class AppModel {
+class AppDetails {
     var name:String = ""
     var developer:String = ""
     var rating:String = ""
     var category:String = ""
+    var price:String = ""
     var reviews:Int = 0
+    var editorsNotes:String = ""
 }
 
 class CircleView:UIView {
@@ -49,104 +51,166 @@ class CircleView:UIView {
 
 class ViewController1: UIScrollViewableController {
     
-    // TODO? UIViewable should keep a reference to it's style
-    let sellerLabelView = UIViewable()
+    var sellerItem = UIViewable()
+    var categoryItem = UIViewable()
+    var compatibilityItem = UIViewable()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "App Details Example"
-        
-        let appModel = AppModel()
-        appModel.name = "Day One 2 Journal + Notes"
-        appModel.developer = "Bloom Built, LLC"
-        appModel.rating = "4+"
-        appModel.category = "Lifestyle"
-        appModel.reviews = 385
-        
-        let items = ["Details", "Reviews", "Related"]
-        let segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.selectedSegmentIndex = 0
-        
-        let appImageView = UIViewable().width(100).height(100).backgroundColor(.orangeColor())
-        // https://www.weheartswift.com/bezier-paths-gesture-recognizers/
-        appImageView.style { (view:UIView) -> Void in
-            view.backgroundColor = UIColor.redColor()
-            view.layer.cornerRadius = 10.0
-            view.clipsToBounds = true
-        }
-        
+        let appDetails = AppDetails()
+        appDetails.name = "Day One 2 Journal + Notes"
+        appDetails.developer = "Bloom Built, LLC"
+        appDetails.rating = " 4+"
+        appDetails.category = "Lifestyle"
+        appDetails.price = "4.99"
+        appDetails.reviews = 385
+        appDetails.editorsNotes = "It's hard to make the best even better, but the sequel to Day One lives up to the expectations -- and then some."
+
         super.scrollView
             < .view+>
+                < .view(style(height:10))>>
                 < .flexRow()+>
-                    < appImageView>>
+                    < width(10)>>
+                    < image("logo").width(80).height(80).style(logoStyle)>>
+                    < width(10)>>
                     < .view+>
                         < .flexRow()+>
-                            < appModel.name>>
-                            < appModel.rating==.width(25).height(25).backgroundColor(.lightGrayColor())>>
+                            < appDetails.name>>
+                            < label(appDetails.rating, style:ratingLabelStyle).width(20)>>
+                            < width(10)>>
                         < .view/>
-                        < "\(appModel.developer) >"==.display(.Block)>>
                         < .view+>
-                            < "Editor's Choice"==.backgroundColor(.lightGrayColor())>>
+                            < label("\(appDetails.developer)", font:.systemFontOfSize(12))>>
+                            < label(" >", font:.systemFontOfSize(11))>>
+                        < .view/>
+                        < .view+>
+                        < label("Editors' Choice", style:editorsChoiceLabelStyle)>>
                         < .view/>
                         < .flexRow()+>
-                            < UIViewable().display(.Flex(.Row)).align(.Bottom(.Left))+>
-                                < UIViewable().display(.Flex(.Row)).align(.Middle(.Left))+>
+                            < .view(style(.Flex(.Row), align:.Bottom(.Left)))+>
+                                < .view(style(.Flex(.Row), align:.Middle(.Left), width:55))+>
                                     < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < .view(style(height:10, width:1, backgroundColor:.blackColor()))>>
                                     < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < .view(style(height:10, width:1, backgroundColor:.blackColor()))>>
                                     < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < .view(style(height:10, width:1, backgroundColor:.blackColor()))>>
-                                    < .view>>
-                                    < .view(style(height:10, width:1, backgroundColor:.blackColor()))>>
-                                    < .view>>
+                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
+                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
                                 < .view/>
-                                < label("(\(appModel.reviews))", font:UIFont.systemFontOfSize(12))>>
+                                < label("(\(appDetails.reviews))", font:.systemFontOfSize(10))>>
                             < .view/>
-                            < "$4.99"==.width(50).height(25).backgroundColor(.cyanColor())>>
+                            < width(50).height(20).style(priceStyle)+>
+                                < .view(style(.Inline, width:3))>>
+                                < label("+", font:.boldSystemFontOfSize(8)).align(.Top(.Left))>>
+                                < label("$\(appDetails.price)", font:.boldSystemFontOfSize(12)).align(.Middle(.Left))>>
+                            < .view/>
+                            < width(10)>>
                         < .view/>
                     < .view/>
                 < .view/>
+                < height(10)>>
                 < .flexRow()+>
-                    < .view(style(width:15, height:15, backgroundColor:.orangeColor()))>>
-                    < "Offers Apple Watch App for iPhone">>
+                    < width(10)>>
+                    < image("logo").width(15).height(15).style(watchLogoStyle)>>
+                    < width(5)>>
+                    < label("Offers Apple Watch App for iPhone", style:watchLabelStyle).align(.Middle(.Left))>>
                 < .view/>
-//                < .view+>
-                    < UIViewable.view(segmentedControl).display(.Inline).align(.Top(.Center))>>
-//                < .view/>
-                < UIViewable().height(1).backgroundColor(.blackColor())>>
-                < "App Store Editor's Notes"==.display(.Block)>>
-                < "This is a test of the emergency broadcast system"==.display(.Block)>>
-                < UIViewable().height(1).backgroundColor(.blackColor())>>
-                < "Information"==.display(.Block)>>
-                < .view+>
-                    < .flexRow()+>
-                        < sellerLabelView+>
-                            < "Seller:"==.align(.Top(.Right))>>
+                < height(10)>>
+                < segment(items:["Details", "Reviews", "Related"], color:.grayColor()).align(.Top(.Center))>>
+                < hr(padding(top:10), color:.lightGrayColor())>>
+                < .flexRow()+>
+                    < width(10)>>
+                    < .view+>
+                        < .view(style(height:40))+>
+                            < label("App Store Editors' Notes").align(.Middle(.Left))>>
                         < .view/>
-                        < appModel.developer>>
-                    < .view/>
-                    < .flexRow()+>
-                        < .view(style(width:120))+>
-                            < "Category:"==.align(.Top(.Right))>>
+                        < label(appDetails.editorsNotes, display:.Block, font:.systemFontOfSize(12))>>
+                        < hr(padding(top:10, bottom:10), color:.lightGrayColor())>>
+                        < label("Supports", display:.Block)>>
+                        < height(10)>>
+                        < .flexRow()+>
+                            < image("gamecenter").width(30).height(30)>>
+                            < .view+>
+                                < label("Game Center", font:.systemFontOfSize(12), display:.Block)>>
+                                < label("Challenge friends and check leaderboards and achievements.", display:.Block, style:informationLabelStyle)>>
+                            < .view/>
                         < .view/>
-                        < appModel.category>>
-                    < .view/>
-                    < .flexRow()+>
-                        < .view(style(width:120))+>
-                            < "Compatibility:"==.align(.Top(.Right))>>
+                        < hr(padding(top:10, bottom:10), color:.lightGrayColor())>>
+                        < label("Information", display:.Block)>>
+                        < .view+>
+                            < informationItem(&sellerItem, title:"Seller", description:appDetails.developer)>>
+                            < informationItem(&categoryItem, title:"Category", description:appDetails.category)>>
+                            < informationItem(&compatibilityItem, title:"Compatibility", description:"Requires iOS 9.0 or later. Compatible with iPhone, iPad, and iPos touch.")>>
                         < .view/>
-                        < "Requires iOS 9.0 or later. Compatible with iPhone, iPad, and iPos touch.">>
                     < .view/>
+                    < width(10)>>
                 < .view/>
             < .view/>
+    }
+    
+    func informationItem(inout view:UIViewable, title:String, description:String) -> UIView {
+        return UIViewable()
+            < .flexRow()+>
+                < view+>
+                    < label(title, style:informationLabelStyle).align(.Top(.Right))>>
+                < .view/>
+                < width(10)>>
+                < label(description, font:.systemFontOfSize(12))>>
+            < .view/>
+    }
+    
+    func layerStyle(layer:CALayer, borderWidth:CGFloat, borderColor:UIColor, cornerRadius:CGFloat = 0) {
+        layer.borderWidth = borderWidth
+        layer.borderColor = borderColor.CGColor
+        layer.cornerRadius = cornerRadius
+    }
+    
+    func logoStyle(view:UIView) {
+        layerStyle(view.layer, borderWidth:0.5, borderColor:.grayColor(), cornerRadius:15.0)
+        view.clipsToBounds = true
+    }
+    
+    func watchLogoStyle(view:UIView) {
+        layerStyle(view.layer, borderWidth:0.5, borderColor:.grayColor(), cornerRadius:7.5)
+        view.clipsToBounds = true
+    }
+    
+    func watchLabelStyle(label:UILabel) {
+        label.textColor = UIColor(red: 106/255.0, green: 113/255.0, blue: 127/255.0, alpha: 1.0)
+        label.font = .boldSystemFontOfSize(10.0)
+    }
+    
+    func ratingLabelStyle(label:UILabel) {
+        layerStyle(label.superview!.layer, borderWidth:1, borderColor:.grayColor())
+        label.textColor = .lightGrayColor()
+        label.font = .systemFontOfSize(11)
+        label.textAlignment = .Right
+    }
+    
+    func editorsChoiceLabelStyle(label:UILabel) {
+        label.superview!.backgroundColor = .grayColor()
+        label.superview!.layer.cornerRadius = 6
+        label.superview!.clipsToBounds = true
+        
+        label.textColor = .whiteColor()
+        label.font = .systemFontOfSize(10.0)
+    }
+    
+    func priceStyle(view:UIView) {
+        layerStyle(view.layer, borderWidth:1, borderColor:view.self.tintColor!, cornerRadius:4.0)
+        view.clipsToBounds = true
+    }
+    
+    func informationLabelStyle(label:UILabel) {
+        label.textColor = .lightGrayColor()
+        label.font = .systemFontOfSize(12.0)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-//        self.thirdWidthStyle.width = CGFloat(self.view.frame.width * 0.33)
-        self.sellerLabelView.width(CGFloat(self.view.frame.width * 0.33))
+        let informationItemWidth = CGFloat(self.view.frame.width * 0.25)
+        self.sellerItem.width(informationItemWidth)
+        self.categoryItem.width(informationItemWidth)
+        self.compatibilityItem.width(informationItemWidth)
     }
 }
