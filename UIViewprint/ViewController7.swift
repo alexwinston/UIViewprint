@@ -28,14 +28,14 @@ class ViewController7: UIViewableController {
         self.view
             < .view(style(backgroundColor:.lightGrayColor()))+>
                 < bannerView+>
-                    < .view(style(.Flex(.Row), align:.Bottom(.Left)))+>
-                        < .view(style(.Flex(.Row)))+>
+                    < .view(style(display:.Flex(.Row), align:.Bottom(.Left)))+>
+                        < .view(style(display:.Flex(.Row)))+>
                             < width(10)>>
                             // TODO Incorrect height when orientation changes from landscape to portrait
                             < image(&avatarImageView, name:"avatar")>>
                             < .view(style(align:.Middle(.Left)))+>
-                                < label("Alex", display:.Block, style:avatarNameStyle)>>
-                                < label("Winston", display:.Block, style:avatarNameStyle)>>
+                                < label("Alex", style:style(display:.Block), appearance:avatarNameStyle)>>
+                                < label("Winston", style:style(display:.Block), appearance:avatarNameStyle)>>
                             < .view/>
                         < .view/>
                         < image("camera").align(.Bottom(.Left)).width(30).height(30)>>
@@ -78,7 +78,7 @@ class ViewController7: UIViewableController {
         
         return UIViewable().backgroundColor(.whiteColor())
             < image(imageName).display(imageDisplay!).align(imageAlign!).width(28).height(28)>>
-            < label(labelText, style:buttonLabelStyle).align(labelAlign!)>>
+            < label(labelText, appearance:buttonLabelStyle).align(labelAlign!)>>
     }
     
     func imageLabelView(labelText:String, imageName:String) -> UIView {
@@ -89,7 +89,7 @@ class ViewController7: UIViewableController {
         
         return UIViewable().backgroundColor(.whiteColor())
             < image(imageName, contentMode:.ScaleAspectFill).display(.Block).align(.Top(.Center)).height(60)>>
-            < label(labelText, style:imageLabelStyle).align(.Top(.Center))>>
+            < label(labelText, appearance:imageLabelStyle).align(.Top(.Center))>>
     }
 
     func avatarNameStyle(label:UILabel) {

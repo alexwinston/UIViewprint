@@ -39,18 +39,18 @@ class ViewController2: UIViewableController {
                     < UIViewable(tag:2, style:orange)+>
                         < "Testing"==.style(green).display(.Block)>>
                         < "Another test"==.style(cyan)>>
-                        < .button("Click", touch:handleClick)>>
+                        < button("Click", touch:handleClick)>>
                     < .view/>
                     < UIViewable(tag:21, style:orange)+>
                         < "Testing"==.style(green).display(.Block)>>
                         < "Another test"==.style(cyan)>>
-                        < .button("Click", touch:handleClick)>>
+                        < button("Click", touch:handleClick)>>
                         < UIViewable(tag:91, style:UIViewableStyle(width:20, height:20, backgroundColor:.lightGrayColor()))>>
                     < .view/>
                     < UIViewable(tag:22, style:orange)+>
                         < "Testing"==.style(green).display(.Block)>>
                         < "Another test"==.style(cyan)>>
-                        < .button("Click", touch:handleClick)>>
+                        < button("Click", touch:handleClick)>>
                         < UIViewable(tag:92, style:UIViewableStyle(display:.Inline, width:50, height:50, backgroundColor:.lightGrayColor()))>>
                         < flatSwitch>>
                     < .view/>
@@ -71,7 +71,7 @@ class ViewController2: UIViewableController {
                         < UIViewable(tag:.close)/>
                     < .view/>
                     < "Right"==.style(orange)>>
-                    < .button("Click again", touch:handleClickAgain)>>
+                    < button("Click again", touch:handleClickAgain)>>
                     < "Test"==.display(.Block).backgroundColor(.lightGrayColor())>>
                 < UIViewable(tag:13, style:UIViewableStyle())/>
                 < "Below test">>

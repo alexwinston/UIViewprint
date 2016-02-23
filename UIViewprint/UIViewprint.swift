@@ -40,6 +40,26 @@ extension NSControlActionFunctionProtocol where Self: UIControl {
 extension UIControl: NSControlActionFunctionProtocol {}
 
 // UIViewable helper functions
+func button(title:String, display:UIViewableDisplay = .Inline, align:UIViewableAlign = .Top(.Left), height:CGFloat? = nil, touch:(UIButton) -> Void) -> UIViewable {
+    // TODO .button
+    let button = UIButton()
+    button.setTitle(title, forState: .Normal)
+    button.backgroundColor = .blueColor()
+    button.addAction([.TouchUpInside], touch)
+    button.sizeToFit()
+    
+    if let height = height {
+        button.frame.size.height = height
+    }
+    
+    let view = UIViewable(style: UIViewableStyle(display:display))
+    view.addSubview(button)
+    view.align(align)
+    
+    return view
+}
+
+
 func width(width:CGFloat) -> UIViewable {
     return UIViewable(style:UIViewableStyle(width:width))
 }
@@ -55,7 +75,7 @@ func hr(padding:UIViewablePadding, color:UIColor) -> UIView {
         < UIViewable().height(padding.bottom)>>
 }
 
-func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberOfLines:Int = 0, font:UIFont? = nil, display:UIViewableDisplay? = .Inline, style:((UILabel) -> Void)? = nil) -> UIViewable {
+func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberOfLines:Int = 0, font:UIFont? = nil, style:UIViewableStyle = UIViewableStyle(display:.Inline), appearance:((UILabel) -> Void)? = nil) -> UIViewable {
     let label = UILabel()
     label.lineBreakMode = lineBreakMode
     label.numberOfLines = numberOfLines
@@ -64,11 +84,11 @@ func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberO
         label.font = font
     }
     
-    let view = UIViewable(style: UIViewableStyle(display:display))
+    let view = UIViewable(style:style)
     view.addSubview(label)
     
-    if let style = style {
-        style(label)
+    if let appearance = appearance {
+        appearance(label)
     }
     label.sizeToFit()
     
@@ -101,7 +121,10 @@ func image(inout id:UIViewable?, name:String, contentMode:UIViewContentMode? = .
     return viewable
 }
 
-func input(placeholder:String, style:((UITextField) -> Void)?) -> UIViewable {
+func input(placeholder placeholder:String) -> UIViewable {
+    return input(placeholder:placeholder, style:UIViewableStyle())
+}
+func input(placeholder placeholder:String, style:((UITextField) -> Void)? = nil) -> UIViewable {
     var textField:UITextField?
     return input(&textField, placeholder:placeholder, style:style)
 }
@@ -141,9 +164,10 @@ func padding(top top:CGFloat = 0, right:CGFloat = 0, bottom:CGFloat = 0, left:CG
 }
 
 // UIViewableStyle helper functions
-func style(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, width:CGFloat? = -1, height:CGFloat? = -1, backgroundColor:UIColor? = nil) -> UIViewableStyle {
-    return UIViewableStyle(display:display, align:align, width:width!, height:height!, backgroundColor:backgroundColor)
-}
+typealias style = UIViewableStyle
+//func style(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, width:CGFloat? = -1, height:CGFloat? = -1, backgroundColor:UIColor? = nil) -> UIViewableStyle {
+//    return UIViewableStyle(display:display, align:align, width:width!, height:height!, backgroundColor:backgroundColor)
+//}
 
 extension UIView {
     static var view:UIView {
@@ -163,24 +187,6 @@ extension UIView {
         }
         viewable.addSubview(view)
         return viewable
-    }
-    
-    static func button(title:String, display:UIViewableDisplay? = .Inline, height:CGFloat? = nil, touch:(UIButton) -> Void) -> UIViewable {
-        // TODO .button
-        let button = UIButton()
-        button.setTitle(title, forState: .Normal)
-        button.backgroundColor = .blueColor()
-        button.addAction([.TouchUpInside], touch)
-        button.sizeToFit()
-        
-        if let height = height {
-            button.frame.size.height = height
-        }
-
-        let view = UIViewable(style: UIViewableStyle(display:display))
-        view.addSubview(button)
-        
-        return view
     }
     
     static func flexColumn() -> UIViewable {
@@ -280,7 +286,7 @@ postfix func />(view: UIView) -> UIViewableParent {
 
 postfix operator == {}
 postfix func ==(text:String) -> UIViewable {
-    return label(text, style:nil)
+    return label(text, appearance:nil)
 }
 
 // TODO Subclass Open,Close,Parent
@@ -372,17 +378,21 @@ func !=(a: UIViewableAlign, b: UIViewableAlign) -> Bool {
     return !(a == b)
 }
 
+typealias UIPadding = (top:CGFloat, right:CGFloat, bottom:CGFloat, left:CGFloat)
+
 // https://teamtreehouse.com/community/can-swift-structs-have-optional-stored-properties
 struct UIViewableStyle {
     var display:UIViewableDisplay?
     var align:UIViewableAlign?
+    var padding:(top:CGFloat, right:CGFloat, bottom:CGFloat, left:CGFloat)
     var width:CGFloat
     var height:CGFloat
     var backgroundColor:UIColor?
     
-    init(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, width:CGFloat = -1, height:CGFloat = -1, backgroundColor:UIColor? = nil) {
+    init(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, padding:(top:CGFloat, right:CGFloat, bottom:CGFloat, left:CGFloat) = (0, 0, 0, 0), width:CGFloat = -1, height:CGFloat = -1, backgroundColor:UIColor? = nil) {
         self.display = display
         self.align = align
+        self.padding = padding
         self.height = height
         self.width = width
         self.backgroundColor = backgroundColor
@@ -406,6 +416,7 @@ struct UIViewablePadding {
 class UIViewable: UIView {
     var display:UIViewableDisplay = .Block
     var align:UIViewableAlign = .Top(.Left)
+    var padding:UIPadding = (0,0,0,0)
     
     // http://www.edwardhuynh.com/blog/2015/02/16/swift-initializer-confusion/
     init(tag:Int = 0, style:UIViewableStyle = UIViewableStyle()) {
@@ -575,6 +586,7 @@ class UIViewable: UIView {
     func style(style:UIViewableStyle) -> UIViewable {
         if (style.display != nil) { self.display(style.display!) }
         if (style.align != nil) { self.align(style.align!) }
+        self.padding(style.padding)
         if (style.width != -1) { self.width(style.width)  }
         if (style.height != -1) { self.height(style.height) }
         if (style.backgroundColor != nil) { self.backgroundColor(style.backgroundColor!) }
@@ -593,6 +605,11 @@ class UIViewable: UIView {
     
     func align(align:UIViewableAlign) -> UIViewable {
         self.align = align
+        return self
+    }
+    
+    func padding(padding:UIPadding) -> UIViewable {
+        self.padding = padding
         return self
     }
 

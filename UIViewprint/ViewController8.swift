@@ -31,7 +31,7 @@ class ViewController8: UIViewableController {
                         < label("Top Right").align(.Top(.Right)).backgroundColor(.redColor())>>
                     < .view/>
                 < .view/>
-                < .view(style(.Flex(.Row), backgroundColor:.lightGrayColor()))+>
+                    < .view(style(display:.Flex(.Row), backgroundColor:.lightGrayColor()))+>
                     < .flexColumn()+>
                         < label("Mid Left").align(.Middle(.Left)).backgroundColor(.yellowColor())>>
                     < .view/>

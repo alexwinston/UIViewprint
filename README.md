@@ -517,6 +517,32 @@ self.view
 
 ![UIViewprint Example 7](images/example7.png)
 
+## Alternative syntax
+There is experimental support for programmatic view layout that does not use operator overloading. It would be great to get feedback on which syntax is the most useable.
+
+### Example 6 from above refactored
+
+```
+self.view.addSubview(
+    div(.Flex(.Column),
+        div(),
+        div(.Flex(.Row),
+            div(style(width:10)),
+            div(
+                input(placeholder:"Email", appearance:largeFontRoundedCorners),
+                div(style(height:10)),
+                input(placeholder:"Password", appearance:largeFontRoundedCorners)
+            ),
+            div(style(width:10))
+        ),
+        div(),
+        div(
+            button("Login", display:.Flex(.Row), align:.Bottom(.Left), height:80, touch:login)
+        )
+    )
+)
+```
+
 ## TODO
 * Add the ability to easily pad views
 * Include examples of using UIViewprint within a table view
