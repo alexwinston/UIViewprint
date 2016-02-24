@@ -67,7 +67,7 @@ class ViewController11: UIViewableController {
                     div(.Inline,
                         label("Label", style:style(backgroundColor:.yellowColor())),
                         label("Label2", font:.systemFontOfSize(20), style:style(backgroundColor:.orangeColor())),
-                        div(height(10))
+                        div(style(height:10, backgroundColor:.redColor()))
                     ),
                     div(style(display:.Inline, width:10, height:5, backgroundColor:.greenColor())),
                     div(style(height:10, backgroundColor:.blueColor()))

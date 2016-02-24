@@ -27,13 +27,26 @@ class ViewController12: UIScrollViewableController {
 //        )
 
         self.scrollView.addSubview(
-            div(foreach:[Int](1...100)) { (i:Int) in
-                return div(
-                    label("Name: "),
-                    label("John \(String(i))"),
-                    div(style(height:1, backgroundColor:.lightGrayColor()))
-                )
-            }
+            div(.Flex(.Row),
+                div(style(width:15)),
+                div(foreach:[Int](1...50)) { (i:Int) in
+                    return div(
+                        div(height(10)),
+                        div(.Flex(.Row),
+                            image("friends", contentMode:.ScaleAspectFill).style(style(width:40, height:40, backgroundColor:.orangeColor())),
+                            div(style(width:10)),
+                            div(
+                                label("Name", font:.boldSystemFontOfSize(20)),
+                                div(height(2)),
+                                label("This is test \(String(i)) of the emergency broadcast system", lineBreakMode:.ByTruncatingTail, numberOfLines:1, font:.systemFontOfSize(12)).style(style(display:.Block))
+                            ),
+                            div(style(width:10))
+                        ),
+                        div(height(10)),
+                        div(style(height:1, backgroundColor:.lightGrayColor()))
+                    )
+                }
+            )
         )
     }
 }
