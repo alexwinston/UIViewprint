@@ -32,19 +32,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		BEAED8601C513C03006F494F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BEAED8431C513C03006F494F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BEAED84A1C513C03006F494F;
-			remoteInfo = Blueprint;
-		};
 		BEAED86B1C513C03006F494F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEAED8431C513C03006F494F /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = BEAED84A1C513C03006F494F;
-			remoteInfo = Blueprint;
+			remoteInfo = UIViewprint;
+		};
+		BEC492091C7D114000C4C4E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEAED8431C513C03006F494F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BEAED84A1C513C03006F494F;
+			remoteInfo = UIViewprint;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -208,7 +208,7 @@
 			dependencies = (
 			);
 			name = UIViewprint;
-			productName = Blueprint;
+			productName = UIViewprint;
 			productReference = BEAED84B1C513C03006F494F /* UIViewprint.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -223,10 +223,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				BEAED8611C513C03006F494F /* PBXTargetDependency */,
+				BEC4920A1C7D114000C4C4E9 /* PBXTargetDependency */,
 			);
 			name = UIViewprintTests;
-			productName = BlueprintTests;
+			productName = UIViewprintTests;
 			productReference = BEAED85F1C513C03006F494F /* UIViewprint.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -244,7 +244,7 @@
 				BEAED86C1C513C03006F494F /* PBXTargetDependency */,
 			);
 			name = UIViewprintUITests;
-			productName = BlueprintUITests;
+			productName = UIViewprintUITests;
 			productReference = BEAED86A1C513C03006F494F /* UIViewprint.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -363,15 +363,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		BEAED8611C513C03006F494F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BEAED84A1C513C03006F494F /* UIViewprint */;
-			targetProxy = BEAED8601C513C03006F494F /* PBXContainerItemProxy */;
-		};
 		BEAED86C1C513C03006F494F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BEAED84A1C513C03006F494F /* UIViewprint */;
 			targetProxy = BEAED86B1C513C03006F494F /* PBXContainerItemProxy */;
+		};
+		BEC4920A1C7D114000C4C4E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BEAED84A1C513C03006F494F /* UIViewprint */;
+			targetProxy = BEC492091C7D114000C4C4E9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -431,7 +431,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -470,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -484,11 +484,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = UIViewprint/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.Blueprint;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.UIViewprint;
 				PRODUCT_NAME = UIViewprint;
 				PROVISIONING_PROFILE = "";
 			};
@@ -500,11 +501,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = UIViewprint/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.Blueprint;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.UIViewprint;
 				PRODUCT_NAME = UIViewprint;
 				PROVISIONING_PROFILE = "";
 			};
@@ -516,7 +518,8 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = UIViewprintTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.BlueprintTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.UIViewprintTests;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)Tests";
 				PRODUCT_NAME = UIViewprint;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UIViewprint.app/UIViewprint";
 			};
@@ -528,7 +531,8 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = UIViewprintTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.BlueprintTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.UIViewprintTests;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)Tests";
 				PRODUCT_NAME = UIViewprint;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UIViewprint.app/UIViewprint";
 			};
@@ -541,7 +545,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.UIViewprintUITests;
 				PRODUCT_NAME = UIViewprint;
-				TEST_TARGET_NAME = Blueprint;
+				TEST_TARGET_NAME = UIViewprint;
 				USES_XCTRUNNER = YES;
 			};
 			name = Debug;
@@ -553,7 +557,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexwinston.UIViewprintUITests;
 				PRODUCT_NAME = UIViewprint;
-				TEST_TARGET_NAME = Blueprint;
+				TEST_TARGET_NAME = UIViewprint;
 				USES_XCTRUNNER = YES;
 			};
 			name = Release;

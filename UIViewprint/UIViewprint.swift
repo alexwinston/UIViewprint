@@ -40,6 +40,39 @@ extension NSControlActionFunctionProtocol where Self: UIControl {
 extension UIControl: NSControlActionFunctionProtocol {}
 
 // UIViewable helper functions
+func div() -> UIViewable { return div(UIViewableStyle()) }
+func div(subviews:UIViewable...) -> UIViewable {
+    return div(UIViewableStyle(), subviews:subviews)
+}
+func div(style:UIViewableStyle, subviews:[UIViewable]) -> UIViewable {
+    var viewable:UIViewable?
+    return div(&viewable, style:style, subviews:subviews)
+}
+func div(inout id:UIViewable?, style:UIViewableStyle = UIViewableStyle(), subviews:[UIViewable]) -> UIViewable {
+    let viewable = UIViewable(style:style)
+    for subview in subviews {
+        viewable.addSubview(subview)
+    }
+    
+    id = viewable
+
+    return viewable
+}
+func div(style:UIViewableStyle, _ subviews:UIViewable...) -> UIViewable {
+    return div(style, subviews:subviews)
+}
+func div(inout id:UIViewable?, _ subviews:UIViewable...) -> UIViewable {
+    return div(&id, style:UIViewableStyle(), subviews:subviews)
+}
+func div(inout id:UIViewable?, _ style:UIViewableStyle = UIViewableStyle(), _ subviews:UIViewable...) -> UIViewable {
+    return div(&id, style:style, subviews:subviews)
+}
+func div(display:UIViewableDisplay = .Block, align:UIViewableAlign = .Top(.Left), padding:(top:CGFloat, right:CGFloat, bottom:CGFloat, left:CGFloat) = (0, 0, 0, 0), _ subviews:UIViewable...) -> UIViewable {
+    let style = UIViewableStyle(display:display, align:align, padding:padding)
+    return div(style, subviews:subviews)
+}
+func div(foreach foreach:[String], _ view:(String) -> UIView) -> UIViewable { return UIViewable() }
+
 func button(title:String, display:UIViewableDisplay = .Inline, align:UIViewableAlign = .Top(.Left), height:CGFloat? = nil, touch:(UIButton) -> Void) -> UIViewable {
     // TODO .button
     let button = UIButton()
@@ -75,7 +108,11 @@ func hr(padding:UIViewablePadding, color:UIColor) -> UIView {
         < UIViewable().height(padding.bottom)>>
 }
 
-func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberOfLines:Int = 0, font:UIFont? = nil, style:UIViewableStyle = UIViewableStyle(display:.Inline), appearance:((UILabel) -> Void)? = nil) -> UIViewable {
+func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberOfLines:Int = 0, font:UIFont? = nil, style:UIViewableStyle = UIViewableStyle(), appearance:((UILabel) -> Void)? = nil) -> UIViewable {
+    var viewable:UIViewable?
+    return label(&viewable, text:text, lineBreakMode:lineBreakMode, numberOfLines:numberOfLines, font:font, style:style, appearance:appearance)
+}
+func label(inout id:UIViewable?, text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberOfLines:Int = 0, font:UIFont? = nil, var style:UIViewableStyle = UIViewableStyle(), appearance:((UILabel) -> Void)? = nil) -> UIViewable {
     let label = UILabel()
     label.lineBreakMode = lineBreakMode
     label.numberOfLines = numberOfLines
@@ -84,15 +121,21 @@ func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberO
         label.font = font
     }
     
-    let view = UIViewable(style:style)
-    view.addSubview(label)
+    if style.display == nil {
+        style.display = .Inline
+    }
+    
+    let viewable = UIViewable(style:style)
+    viewable.addSubview(label)
     
     if let appearance = appearance {
         appearance(label)
     }
     label.sizeToFit()
     
-    return view
+    id = viewable
+    
+    return viewable
 }
 
 func image(name:String, contentMode:UIViewContentMode? = .ScaleAspectFit) -> UIViewable {
@@ -485,6 +528,14 @@ class UIViewable: UIView {
         for i in 0..<subviews.count {
             let subview = subviews[i] as UIView
             
+            if (Mirror(reflecting:subview).subjectType == UIViewable.self) {
+                let viewable = subview as! UIViewable
+                // .Flew.Row sets the flexWidth of the subview to true
+                if self.display == .Flex(.Row) {
+                    viewable.flexWidth = true
+                }
+            }
+            
             subview.layoutSubviews()
             subview.frame.origin.y = height
             
@@ -506,16 +557,11 @@ class UIViewable: UIView {
                 }
             }
             
-            width = max(width, subview.frame.origin.x + subview.frame.width)
             height += subview.frame.height
             
             // TODO? Move display property to UIView
             if (Mirror(reflecting:subview).subjectType == UIViewable.self) {
                 let viewable = subview as! UIViewable
-                // .Flew.Row sets the flexWidth of the subview to true
-                if self.display == .Flex(.Row) {
-                    viewable.flexWidth = true
-                }
 
                 if i > 0 {
                     if (Mirror(reflecting:subviews[i - 1]).subjectType == UIViewable.self) {
@@ -532,6 +578,8 @@ class UIViewable: UIView {
                     }
                 }
             }
+            
+            width = max(width, subview.frame.origin.x + subview.frame.width)
         }
         
         if (self.display == .Inline && self.frame.width == 0) {

@@ -37,7 +37,7 @@ class UIViewableController: UIViewController {
             display = viewable.display
         }
 
-        print("\(indent)<\(view.tag) \(display) x=\(frame.origin.x) y=\(frame.origin.y) width=\(frame.width) maxWidth=\(view.maxWidth) height=\(frame.height) maxHeight=\(view.maxHeight)>")
+        print("\(indent)<\(display) x=\(frame.origin.x) y=\(frame.origin.y) width=\(frame.width) maxWidth=\(view.maxWidth) height=\(frame.height) maxHeight=\(view.maxHeight)>")
         for i in 0..<view.subviews.count {
             let subview = view.subviews[i] as UIView
             self.debugSubviews(subview, indent: indent + " ")
