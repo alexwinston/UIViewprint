@@ -13,6 +13,7 @@
 		BE1346D31C60510A0026514E /* ViewController4.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1346D21C60510A0026514E /* ViewController4.swift */; };
 		BE1346D51C61099B0026514E /* ViewController5.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1346D41C61099B0026514E /* ViewController5.swift */; };
 		BE1346D71C6189AF0026514E /* ViewController6.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1346D61C6189AF0026514E /* ViewController6.swift */; };
+		BE276BCC1C7E639400F23656 /* ViewController12.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE276BCB1C7E639400F23656 /* ViewController12.swift */; };
 		BE6AAA321C63D25400899E9F /* ViewController7.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6AAA311C63D25400899E9F /* ViewController7.swift */; };
 		BE7074561C583D8D00CFD9C0 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7074551C583D8D00CFD9C0 /* ViewController2.swift */; };
 		BE81F43B1C6D991F007D1789 /* ViewController10.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE81F43A1C6D991F007D1789 /* ViewController10.swift */; };
@@ -22,7 +23,6 @@
 		BE97001B1C6A971C008C44FD /* ViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97001A1C6A971C008C44FD /* ViewController1.swift */; };
 		BE97001D1C6A986B008C44FD /* UIScrollViewableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97001C1C6A986B008C44FD /* UIScrollViewableController.swift */; };
 		BE9A98451C7E132B00F64D5A /* ViewController11.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9A98441C7E132B00F64D5A /* ViewController11.swift */; };
-		BE9A98471C7E27B700F64D5A /* ViewController12.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9A98461C7E27B700F64D5A /* ViewController12.swift */; };
 		BEAED84F1C513C03006F494F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAED84E1C513C03006F494F /* AppDelegate.swift */; };
 		BEAED8511C513C03006F494F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAED8501C513C03006F494F /* ViewController.swift */; };
 		BEAED8541C513C03006F494F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEAED8521C513C03006F494F /* Main.storyboard */; };
@@ -70,6 +70,7 @@
 		BE1346D21C60510A0026514E /* ViewController4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController4.swift; sourceTree = "<group>"; };
 		BE1346D41C61099B0026514E /* ViewController5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController5.swift; sourceTree = "<group>"; };
 		BE1346D61C6189AF0026514E /* ViewController6.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController6.swift; sourceTree = "<group>"; };
+		BE276BCB1C7E639400F23656 /* ViewController12.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController12.swift; sourceTree = "<group>"; };
 		BE6AAA311C63D25400899E9F /* ViewController7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController7.swift; sourceTree = "<group>"; };
 		BE7074551C583D8D00CFD9C0 /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		BE81F43A1C6D991F007D1789 /* ViewController10.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController10.swift; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		BE97001A1C6A971C008C44FD /* ViewController1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController1.swift; sourceTree = "<group>"; };
 		BE97001C1C6A986B008C44FD /* UIScrollViewableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewableController.swift; sourceTree = "<group>"; };
 		BE9A98441C7E132B00F64D5A /* ViewController11.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController11.swift; sourceTree = "<group>"; };
-		BE9A98461C7E27B700F64D5A /* ViewController12.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController12.swift; path = ../ViewController12.swift; sourceTree = "<group>"; };
 		BEAED84B1C513C03006F494F /* UIViewprint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIViewprint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEAED84E1C513C03006F494F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEAED8501C513C03006F494F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 				BE9700181C6A80A3008C44FD /* ViewController9.swift */,
 				BE81F43A1C6D991F007D1789 /* ViewController10.swift */,
 				BE9A98441C7E132B00F64D5A /* ViewController11.swift */,
-				BE9A98461C7E27B700F64D5A /* ViewController12.swift */,
+				BE276BCB1C7E639400F23656 /* ViewController12.swift */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -348,7 +348,7 @@
 				BE81F43B1C6D991F007D1789 /* ViewController10.swift in Sources */,
 				BE1346D11C6001E10026514E /* UIViewableController.swift in Sources */,
 				BEAED84F1C513C03006F494F /* AppDelegate.swift in Sources */,
-				BE9A98471C7E27B700F64D5A /* ViewController12.swift in Sources */,
+				BE276BCC1C7E639400F23656 /* ViewController12.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
