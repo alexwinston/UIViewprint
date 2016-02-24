@@ -97,7 +97,7 @@ class ViewController10: UIViewableController {
 //        self.view
 //            < .view+>
 //                < .view(style(display:.Inline, backgroundColor:.yellowColor()))+>
-//                    < .view(style(display:.Block, height:10, backgroundColor:.purpleColor()))>>
+//                    < .view(style(display:.Block, width:10, height:10, backgroundColor:.purpleColor()))>>
 //                    < .view(style(display:.Inline, width:10, height:5, backgroundColor:.redColor()))>>
 //                    < .view(style(display:.Inline, backgroundColor:.orangeColor()))+>
 //                        < "Testing">>
@@ -110,33 +110,19 @@ class ViewController10: UIViewableController {
 
 //        self.view.addSubview(
 //            div(
-//                div(style(display:.Inline, backgroundColor:.orangeColor()),
-//                    div(style(height:10, backgroundColor:.purpleColor())),
-////                    div(
-//                        div(style(display:.Inline, width:10, height:5, backgroundColor:.grayColor())),
-//                        label("Testing", style:style(backgroundColor:.yellowColor())),
-//                        div(style(display:.Inline, width:10, height:5, backgroundColor:.grayColor())),
-////                    ),
-//                    div(style(height:10, backgroundColor:.purpleColor()))
+//                div(style(display:.Inline, backgroundColor:.yellowColor()),
+//                    div(style(width:10, height:10, backgroundColor:.purpleColor())),
+//                    div(style(display:.Inline, width:10, height:5, backgroundColor:.redColor())),
+//                    div(style(display:.Inline, backgroundColor:.orangeColor()),
+//                        label("Testing", style:style(backgroundColor:.grayColor()))
+//                    ),
+//                    div(style(display:.Inline, width:10, height:5, backgroundColor:.redColor())),
+//                    div(style(display:.Block, height:10, backgroundColor:.purpleColor()))
 //                ),
 //                label("Test")
 //            )
 //        )
 
-        self.view.addSubview(
-            div(
-                div(style(display:.Inline, backgroundColor:.orangeColor()),
-                    div(style(height:10, backgroundColor:.purpleColor())),
-                    div(style(display:.Inline, width:10, height:5, backgroundColor:.grayColor())),
-                    label("Testing", style:style(backgroundColor:.yellowColor())),
-                    div(style(display:.Inline, width:10, height:5, backgroundColor:.grayColor())),
-                    div(style(height:10, backgroundColor:.purpleColor()))
-                ),
-                label("Test")
-            )
-        )
-
-        
 //        self.view
 //            < UIViewable().align(.Middle(.Left))+>
 //                < "Please enter your login credentials"==.align(.Top(.Center))>>
@@ -157,6 +143,45 @@ class ViewController10: UIViewableController {
 //                < button("Login", display:.Flex(.Row), touch:login)>>
 //            < .view/>
 
+        self.view.addSubview(
+            div(align(.Middle(.Left)),
+                label("Please enter your login credentials", style:align(.Top(.Center))),
+                div(height(10)),
+                div(.Flex(.Row),
+                    div(style(width:100),
+                        label("Email", style:align(.Top(.Right)))
+                    ),
+                    input(&emailTextField, placeholder:"john@doe.com", appearance:roundedCorners)
+                ),
+                div(.Flex(.Row),
+                    div(style(width:100),
+                        label("Password", style:align(.Top(.Right)))
+                    ),
+                    input(placeholder:"", appearance:roundedCorners)
+                ),
+                div(height(10)),
+                button("Login", display:.Flex(.Row), touch:login)
+            )
+        )
+        
+//        self.view
+//            < .flexColumn()+>
+//                < .view>>
+//                < .flexRow()+>
+//                    < .view(style(width:10))>>
+//                    < .view+>
+//                        < input(&emailTextField, placeholder:"Email", style:largeRoundedStyle)>>
+//                        < .view(style(height:10))>>
+//                        < input("Password", style:largeRoundedStyle)>>
+//                    < .view/>
+//                    < .view(style(width:10))>>
+//                < .view/>
+//                < .view>>
+//                < .view+>
+//                    < UIView.button("Login", display:.Flex(.Row), height:80, touch:login).align(.Bottom(.Left))>>
+//                < .view/>
+//            < .view/>
+        
 //        self.view.addSubview(
 //            div(.Flex(.Column),
 //                div(),
@@ -175,24 +200,6 @@ class ViewController10: UIViewableController {
 //                )
 //            )
 //        )
-
-//        self.view
-//            < .flexColumn()+>
-//                < .view>>
-//                < .flexRow()+>
-//                    < .view(style(width:10))>>
-//                    < .view+>
-//                        < input(&emailTextField, placeholder:"Email", style:largeRoundedStyle)>>
-//                        < .view(style(height:10))>>
-//                        < input("Password", style:largeRoundedStyle)>>
-//                    < .view/>
-//                    < .view(style(width:10))>>
-//                < .view/>
-//                < .view>>
-//                < .view+>
-//                    < UIView.button("Login", display:.Flex(.Row), height:80, touch:login).align(.Bottom(.Left))>>
-//                < .view/>
-//            < .view/>
     }
 
     func roundedCorners(textField:UITextField) {

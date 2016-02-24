@@ -31,12 +31,7 @@ class UIScrollViewableController: UIViewableController {
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         
-        //        self.view.frame.size = size
         self.scrollView.frame.size = size
-        for subview in self.view.subviews {
-            subview.layoutSubviews()
-        }
-        super.debugSubviews(self.view, indent: "")
+//        super.debugSubviews(self.view, indent: "")
     }
-
 }

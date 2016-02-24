@@ -50,6 +50,7 @@ func div(style:UIViewableStyle, subviews:[UIViewable]) -> UIViewable {
 }
 func div(inout id:UIViewable?, style:UIViewableStyle = UIViewableStyle(), subviews:[UIViewable]) -> UIViewable {
     let viewable = UIViewable(style:style)
+//    print("div \(String(ObjectIdentifier(viewable).uintValue))")
     for subview in subviews {
         viewable.addSubview(subview)
     }
@@ -71,7 +72,13 @@ func div(display:UIViewableDisplay = .Block, align:UIViewableAlign = .Top(.Left)
     let style = UIViewableStyle(display:display, align:align, padding:padding)
     return div(style, subviews:subviews)
 }
-func div(foreach foreach:[String], _ view:(String) -> UIView) -> UIViewable { return UIViewable() }
+func div<T>(foreach foreach:[T], _ view:(T) -> UIView) -> UIViewable {
+    let viewable = UIViewable()
+    for t in foreach {
+        viewable.addSubview(view(t))
+    }
+    return viewable
+}
 
 func button(title:String, display:UIViewableDisplay = .Inline, align:UIViewableAlign = .Top(.Left), height:CGFloat? = nil, touch:(UIButton) -> Void) -> UIViewable {
     // TODO .button
@@ -460,6 +467,7 @@ class UIViewable: UIView {
     var display:UIViewableDisplay = .Block
     var align:UIViewableAlign = .Top(.Left)
     var padding:UIPadding = (0,0,0,0)
+    var needsLayout = true
     
     // http://www.edwardhuynh.com/blog/2015/02/16/swift-initializer-confusion/
     init(tag:Int = 0, style:UIViewableStyle = UIViewableStyle()) {
@@ -473,9 +481,29 @@ class UIViewable: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func setNeedsLayout() {
+        super.setNeedsLayout()
+        for subview in self.subviews {
+            subview.setNeedsLayout()
+        }
+        self.needsLayout = true
+    }
+    
     override func layoutSubviews() {
+        if (!self.needsLayout) {
+            return
+        }
+        self.needsLayout = false
+        
+//        print("layoutSubviews \(String(ObjectIdentifier(self).uintValue)) \(self.display)")
         if ((self.display == .Block || self.display == .Flex(.Column)) && !self.flexWidth && self.maxWidth == 0 && self.superview != nil) {
             self.frame.size.width = self.superview!.frame.width
+            // .Block viewables with a .Inline superview require subsequent layout to determine width
+            if let superview = self.superview as? UIViewable {
+                if superview.display == .Inline {
+                    self.needsLayout = true
+                }
+            }
         }
         
         // TODO Flex columns and rows need to layout subviews to determine the appropriate height and width.

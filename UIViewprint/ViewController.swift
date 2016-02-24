@@ -10,7 +10,20 @@ import UIKit
 
 class ViewController: UITableViewController {
 
-    var items: [String] = ["Example 1", "Example 2", "Example 3", "Example 4", "Example 5", "Example 6", "Example 7", "Example 8", "Example 9", "Example 10"]
+    var items: [String] = [
+        "Example 1",
+        "Example 2",
+        "Example 3",
+        "Example 4",
+        "Example 5",
+        "Example 6",
+        "Example 7",
+        "Example 8",
+        "Example 9",
+        "Example 10",
+        "Example 11",
+        "Example 12"
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +69,10 @@ class ViewController: UITableViewController {
             controller = ViewController9()
         case 9:
             controller = ViewController10()
+        case 10:
+            controller = ViewController11()
+        case 11:
+            controller = ViewController12()
         default:
             controller = nil
         }

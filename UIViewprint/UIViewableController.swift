@@ -14,19 +14,12 @@ infix operator < { associativity left }
 class UIViewableController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let viewable = UIViewable()
-//        viewable.frame = self.view.frame
-//        self.view = viewable
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         
         self.view.frame.size = size
-        for subview in view.subviews {
-            subview.layoutSubviews()
-        }
-        self.debugSubviews(self.view, indent: "")
     }
     
     func debugSubviews(view:UIView, indent:String) {
