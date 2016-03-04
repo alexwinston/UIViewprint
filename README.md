@@ -182,9 +182,35 @@ class ViewController1: UIScrollViewableController {
 
 ## Disclaimer
 
-**UIViewprint** is an experiment that pushes Swift operator overloading and various language features to the absolute limit.  It also regularly crashes the Xcode editor but I haven't had time to submit any bug reports.  That being said I have been pleasently surprised with what is possible in Swift.
+**UIViewprint** is in a beta-ish state and pushes Swift operator overloading and various language features to the absolute limit. I have been pleasently surprised with what is possible in Swift and the performance this approach provides. The UITableView examples are currently provided using this syntax for comparison.
 
-**This is primarily a thought experiment to demonstrate how layout can be simplified with Swift operator overloading.  The operators chosen are ment to mimic HTML but other operators might actually be better.**
+**This is currently a thought experiment to demonstrate how layout can be simplified with Swift operator overloading.  The operators chosen are ment to mimic HTML but other operators might actually be better. In addition this project attemps to borrow ideas from React Native but tailored specifically to iOS.**
+
+## Alternative syntax
+There is experimental support for programmatic view layout that does not use operator overloading. It would be great to get feedback on which syntax is the most useable.
+
+### Example 6 from below refactored
+
+```
+self.view.addSubview(
+    div(.Flex(.Column),
+        div(),
+        div(.Flex(.Row),
+            div(style(width:10)),
+            div(
+                input(placeholder:"Email", appearance:largeFontRoundedCorners),
+                div(style(height:10)),
+                input(placeholder:"Password", appearance:largeFontRoundedCorners)
+            ),
+            div(style(width:10))
+        ),
+        div(),
+        div(
+            button("Login", display:.Flex(.Row), align:.Bottom(.Left), height:80, touch:login)
+        )
+    )
+)
+```
 
 ## The Basics
 UIViewprint grew out of various shortcomings and frustrations with Interface Builder, Auto Layout, Stack Views and the myriad of Swift frameworks that attempt to make Auto Layout easier. In an effort to reimagine how layout could be improved a structure similar to HTML and CSS was adopted given it's ubiquity and surprising ability to model heirarchical views quite well.
@@ -700,35 +726,8 @@ self.view
 
 ![UIViewprint Example 7](images/example7.png)
 
-## Alternative syntax
-There is experimental support for programmatic view layout that does not use operator overloading. It would be great to get feedback on which syntax is the most useable.
-
-### Example 6 from above refactored
-
-```
-self.view.addSubview(
-    div(.Flex(.Column),
-        div(),
-        div(.Flex(.Row),
-            div(style(width:10)),
-            div(
-                input(placeholder:"Email", appearance:largeFontRoundedCorners),
-                div(style(height:10)),
-                input(placeholder:"Password", appearance:largeFontRoundedCorners)
-            ),
-            div(style(width:10))
-        ),
-        div(),
-        div(
-            button("Login", display:.Flex(.Row), align:.Bottom(.Left), height:80, touch:login)
-        )
-    )
-)
-```
-
 ## TODO
 * Add the ability to easily pad views
-* Include examples of using UIViewprint within a table view
 * Consider using SwiftBox for better layout and performance
 
 ## Contact
