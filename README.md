@@ -182,12 +182,14 @@ class ViewController1: UIScrollViewableController {
 
 ## Disclaimer
 
-**UIViewprint** is in a beta-ish state and pushes Swift operator overloading and various language features to the absolute limit. I have been pleasently surprised with what is possible in Swift and the performance this approach provides. The UITableView examples are currently provided using this syntax for comparison.
+**UIViewprint** is in a beta-ish state and pushes Swift operator overloading and various language features to the absolute limit. I have been pleasently surprised with what is possible in Swift and the performance this approach provides.
 
-**This is currently a thought experiment to demonstrate how layout can be simplified with Swift operator overloading.  The operators chosen are ment to mimic HTML but other operators might actually be better. In addition this project attemps to borrow ideas from React Native but tailored specifically to iOS.**
+**This is currently a thought experiment to demonstrate how layout can be simplified with Swift operator overloading.  The operators chosen are ment to mimic HTML but other operators might actually be better.**
+
+In addition this project attemps to borrow ideas from React Native but tailored specifically to iOS.
 
 ## Alternative syntax
-There is experimental support for programmatic view layout that does not use operator overloading. It would be great to get feedback on which syntax is the most useable.
+There is experimental support for programmatic view layout that does not use operator overloading. It would be great to get feedback on which syntax is the most useable. The UITableView examples are currently provided using this syntax for comparison.
 
 ### Example 6 from below refactored
 
