@@ -71,9 +71,9 @@ class ViewController16: UITableViewableController {
 //                    )
                 }
             ],
-            footer: div(style(height:100, backgroundColor:.yellowColor()),
-                label("Foot 1").backgroundColor(.grayColor()),
-                label("Foot 2").align(.Top(.Right)).backgroundColor(.orangeColor())
+            footer: div(
+                button("Redeem", touch:handleRedeem),
+                button("Send Gift", touch:handleSendGift)
             )
         )
 
@@ -81,5 +81,11 @@ class ViewController16: UITableViewableController {
 
     func touchRow(indexPath:NSIndexPath) {
         print("touch \(indexPath.section) \(indexPath.row)")
+    }
+    
+    func handleRedeem(button:UIButton) {
+    }
+    
+    func handleSendGift(button:UIButton) {
     }
 }

@@ -324,6 +324,189 @@ override func viewDidLoad() {
 
 ![UIViewprint Example 5](images/example5.png)
 
+## UITablewView support
+UIViewprint now provides rather robust table view support however some complex edge cases can still be difficult. The easiest way to develop table views in UIViewprint is to use the UITableViewableController class.  This subclass of the UITableViewController provides a number of convenience methods in addition to various important boilerplate code that provides impressive performance out of the box.
+
+### Static table
+The example code below demonstrates how to create a simple static table that simply renders a number of predefined rows. In addition to easily defining a table header and footer, multiple sections can be defined in addition to variable sized cell "rows" that are intelligently cached and resized appropriately during orientation changes. Row selectors can be defined per section.
+
+```
+class ViewController: UITableViewableController {
+	override func viewDidLoad() {
+	    super.viewDidLoad()
+	    
+	    self.title = "Static table"
+	    self.edgesForExtendedLayout = UIRectEdge.None;
+	    
+	    self.table(
+	        header: label("Header"),
+	        sections: [
+	            section(touchRow,
+	                header: "Section One",
+	                rows: [
+	                    row(
+	                        div(
+	                            label("Left 1"),
+	                            label("Right 1").align(.Top(.Right))
+	                        )
+	                    ),
+	                    row(label("Row 2")),
+	                    row(label("Row 3")),
+	                    row(label("Row 4")),
+	                    row(label("Row 5")),
+	                    row(
+	                        div(
+	                            label("Left 6"),
+	                            label("Right 6").align(.Top(.Right))
+	                        )
+	                    )
+	                ]
+	            ),
+	            section(touchRow,
+	                header: "Section Two",
+	                rows: [
+	                    row(
+	                        div(
+	                            label("Left 2-1"),
+	                            label("Right 2-1").align(.Top(.Right))
+	                        )
+	                    ),
+	                    row(label("Row 2-2")),
+	                    row(label("Row 2-3")),
+	                    row(label("Row 2-4")),
+	                    row(label("Row 2-5")),
+	                    row(
+	                        div(
+	                            label("Left 2-6"),
+	                            label("Right 2-6").align(.Top(.Right))
+	                        )
+	                    )
+	                ]
+	            )
+	        ],
+	        footer: div(style(height:100, backgroundColor:.yellowColor()),
+	            label("Foot 1").backgroundColor(.grayColor()),
+	            label("Foot 2").align(.Top(.Right)).backgroundColor(.orangeColor())
+	        )
+	    )
+	}
+	    
+	func touchRow(indexPath:NSIndexPath) {
+	    print("touch \(indexPath.section) \(indexPath.row)")
+	}
+}
+```
+
+### Basic datasource table
+The UITableViewableController provides a number of convenience methods to support various types of datasources.  In the example below an array of Example objects is registered with the table controller through the "foreach" parameter of the section method.
+
+A crude copy of the UITableViewCellStyleDefault is provided through the defaultTableViewCell method.  It should be noted however that the UITableViewableController does not work with cells.  It instead works with UIViewable which is a subclass of UIView.
+
+```
+class UIViewController: UITableViewableController {
+
+    let examples: [ExampleControllerDetails] = [
+        Example(name:"Example 1", controller:ViewController1.self),
+        Example(name:"Example 2", controller:ViewController2.self),
+        Example(name:"Example 3", controller:ViewController3.self)
+    ]
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.title = "UITableView examples"
+        self.edgesForExtendedLayout = UIRectEdge.None;
+        
+        self.table(
+            sections: [
+                section(selectExample, foreach:examples) { (example:AnyObject) in
+                    let example = example as! Example
+                    return self.defaultTableViewCell(example.name)
+                }
+            ]
+        )   
+    }
+    
+    func selectExample(indexPath:NSIndexPath) {
+        let controller:UIViewController = self.examples[indexPath.row].controller.init()
+        controller.view.frame = view.bounds
+        controller.view.backgroundColor = .whiteColor()
+        controller.view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+}
+```
+
+### Advanced datasource table
+Complex datasource driven tables are also possible with UIViewprint.  Although this functionality does not support every possible use case it currently provides robust support for a large majority of scenarios.
+
+The example below is the beginnnings of an App Store Editors' Choice table view. The header is "sticky" and the table supports basic swipe to delete capabilities. 
+
+```
+class ViewController: UITableViewableController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.title = "Datasource example"
+        self.edgesForExtendedLayout = UIRectEdge.None;
+
+        let apps:[App] = [
+            App(name:"iSlash Heroes"),
+            App(name:"Tomb of the Mask"),
+            App(name:"Day One 2 Journal + Notes + diary"),
+            App(name:"twofold inc."),
+            App(name:"Guides by Lonely Planet"),
+            App(name:"Dungelot: Shattered Lands")
+        ]
+
+        self.table(
+            header: div(style(height:100, backgroundColor:.lightGrayColor()),
+                label("Editors' Choice", style:style(align:.Middle(.Center)))
+            ),
+            sections: [
+                section(touchRow,
+                    rows: [
+                        row(
+                            label("Our editors continually sift through the latest releases and updates, recognizing the most invaluable apps and the most entertaining games as Editors' Choice selections.").display(.Block)
+                        )
+                    ]
+                ),
+                section(touchRow, foreach:apps) { (app:AnyObject) in
+                    let app = app as! App
+                    return div(
+                        div(style(height:10)),
+                        div(.Flex(.Row),
+                            div(style(width:10)),
+                            div(
+                                label("\(app.name)")
+                            )
+                        ),
+                        div(style(height:10))
+                    )
+                }
+            ],
+            footer: div(
+                button("Redeem", touch:handleRedeem),
+                button("Send Gift", touch:handleSendGift)
+            )
+        )
+
+    }
+
+    func touchRow(indexPath:NSIndexPath) {
+        print("touch \(indexPath.section) \(indexPath.row)")
+    }
+    
+    func handleRedeem(button:UIButton) {
+    }
+    
+    func handleSendGift(button:UIButton) {
+    }
+}
+```
+
 ## Advanced features
 
 ### Example 6
