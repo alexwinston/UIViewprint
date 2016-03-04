@@ -85,6 +85,7 @@ func align(align:UIViewableAlign) -> UIViewableStyle {
 
 class ViewController10: UIViewableController {
 
+    var instructionsLabel:UIViewable?
     var emailTextField:UITextField?
     var passwordTextField:UITextField?
 
@@ -93,35 +94,6 @@ class ViewController10: UIViewableController {
 
         self.title = "Example 6"
         self.edgesForExtendedLayout = UIRectEdge.None;
-
-//        self.view
-//            < .view+>
-//                < .view(style(display:.Inline, backgroundColor:.yellowColor()))+>
-//                    < .view(style(display:.Block, width:10, height:10, backgroundColor:.purpleColor()))>>
-//                    < .view(style(display:.Inline, width:10, height:5, backgroundColor:.redColor()))>>
-//                    < .view(style(display:.Inline, backgroundColor:.orangeColor()))+>
-//                        < "Testing">>
-//                    < .view/>
-//                    < .view(style(display:.Inline, width:10, height:5, backgroundColor:.redColor()))>>
-//                    < .view(style(display:.Block, height:10, backgroundColor:.purpleColor()))>>
-//                < .view/>
-//                < "Test">>
-//            < .view/>
-
-//        self.view.addSubview(
-//            div(
-//                div(style(display:.Inline, backgroundColor:.yellowColor()),
-//                    div(style(width:10, height:10, backgroundColor:.purpleColor())),
-//                    div(style(display:.Inline, width:10, height:5, backgroundColor:.redColor())),
-//                    div(style(display:.Inline, backgroundColor:.orangeColor()),
-//                        label("Testing", style:style(backgroundColor:.grayColor()))
-//                    ),
-//                    div(style(display:.Inline, width:10, height:5, backgroundColor:.redColor())),
-//                    div(style(display:.Block, height:10, backgroundColor:.purpleColor()))
-//                ),
-//                label("Test")
-//            )
-//        )
 
 //        self.view
 //            < UIViewable().align(.Middle(.Left))+>
@@ -143,26 +115,26 @@ class ViewController10: UIViewableController {
 //                < button("Login", display:.Flex(.Row), touch:login)>>
 //            < .view/>
 
-        self.view.addSubview(
-            div(align(.Middle(.Left)),
-                label("Please enter your login credentials", style:align(.Top(.Center))),
-                div(height(10)),
-                div(.Flex(.Row),
-                    div(style(width:100),
-                        label("Email", style:align(.Top(.Right)))
-                    ),
-                    input(&emailTextField, placeholder:"john@doe.com", appearance:roundedCorners)
-                ),
-                div(.Flex(.Row),
-                    div(style(width:100),
-                        label("Password", style:align(.Top(.Right)))
-                    ),
-                    input(placeholder:"", appearance:roundedCorners)
-                ),
-                div(height(10)),
-                button("Login", display:.Flex(.Row), touch:login)
-            )
-        )
+//        self.view.addSubview(
+//            div(align(.Middle(.Left)),
+//                label(&instructionsLabel, text:"Please enter your login credentials.", style:align(.Top(.Center))).display(.Block),
+//                div(height(10)),
+//                div(.Flex(.Row),
+//                    div(style(width:100),
+//                        label("Email", style:align(.Top(.Right)))
+//                    ),
+//                    input(&emailTextField, placeholder:"john@doe.com", appearance:roundedCorners)
+//                ),
+//                div(.Flex(.Row),
+//                    div(style(width:100),
+//                        label("Password", style:align(.Top(.Right)))
+//                    ),
+//                    input(placeholder:"", appearance:roundedCorners)
+//                ),
+//                div(height(10)),
+//                button("Login", display:.Flex(.Row), touch:login)
+//            )
+//        )
         
 //        self.view
 //            < .flexColumn()+>
@@ -182,24 +154,24 @@ class ViewController10: UIViewableController {
 //                < .view/>
 //            < .view/>
         
-//        self.view.addSubview(
-//            div(.Flex(.Column),
-//                div(),
-//                div(.Flex(.Row),
-//                    div(style(width:10)),
-//                    div(
-//                        input(&emailTextField, placeholder:"Email", appearance:largeFontRoundedCorners),
-//                        div(style(height:10)),
-//                        input(placeholder:"Password", appearance:largeFontRoundedCorners)
-//                    ),
-//                    div(style(width:10))
-//                ),
-//                div(),
-//                div(
-//                    button("Login", display:.Flex(.Row), align:.Bottom(.Left), height:80, touch:login)
-//                )
-//            )
-//        )
+        self.view.addSubview(
+            div(.Flex(.Column),
+                div(),
+                div(.Flex(.Row),
+                    div(style(width:10)),
+                    div(
+                        input(&emailTextField, placeholder:"Email", appearance:largeFontRoundedCorners),
+                        div(style(height:10)),
+                        input(placeholder:"Password", appearance:largeFontRoundedCorners)
+                    ),
+                    div(style(width:10))
+                ),
+                div(),
+                div(
+                    button("Login", display:.Flex(.Row), align:.Bottom(.Left), height:80, touch:login)
+                )
+            )
+        )
     }
 
     func roundedCorners(textField:UITextField) {
@@ -208,6 +180,13 @@ class ViewController10: UIViewableController {
     
     func login(button:UIButton) {
         print(emailTextField!.text)
+        if let instructionsLabel = instructionsLabel?.subviews[0] as? UILabel {
+            instructionsLabel.text = "This is a test of the emergency broadcast system"
+        }
+//        self.view.subviews[0].setNeedsLayout()
+        if let superview = instructionsLabel?.superview as? UIViewable {
+            superview.setNeedsLayout()
+        }
     }
     
     func largeFontRoundedCorners(view:UIView) {

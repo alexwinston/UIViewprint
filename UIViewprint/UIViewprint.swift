@@ -22,7 +22,7 @@ class ActionTrampoline<T>: NSObject {
     }
     
     @objc func action(sender: UIControl) {
-        print(sender)
+//        print(sender)
         action(sender as! T)
     }
 }
@@ -480,7 +480,7 @@ class UIViewable: UIView {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func setNeedsLayout() {
         super.setNeedsLayout()
         for subview in self.subviews {
@@ -495,6 +495,11 @@ class UIViewable: UIView {
         }
         self.needsLayout = false
         
+        if !self.flexWidth && self.subviews.count == 1 && (self.subviews[0] as? UILabel != nil) {
+            self.frame.size = CGSizeZero
+            self.subviews[0].frame.size = CGSizeZero
+        }
+
 //        print("layoutSubviews \(String(ObjectIdentifier(self).uintValue)) \(self.display)")
         if ((self.display == .Block || self.display == .Flex(.Column)) && !self.flexWidth && self.maxWidth == 0 && self.superview != nil) {
             self.frame.size.width = self.superview!.frame.width
@@ -505,25 +510,25 @@ class UIViewable: UIView {
                 }
             }
         }
-        
+
         // TODO Flex columns and rows need to layout subviews to determine the appropriate height and width.
         // If subviews are larger than the alloted flex height and width the views are clipped
         if (self.display == .Flex(.Row) && self.superview != nil) {
             if (!self.flexWidth && self.maxWidth == 0) {
                 self.frame.size.width = self.superview!.frame.width
             }
-            
+
             var subviewsWidth:CGFloat = 0
             var flexibleSubviews = [UIView]()
 
-            for subview in subviews {
+            for subview in self.subviews {
                 if (subview.maxWidth == 0) {
                     flexibleSubviews.append(subview)
                 } else {
                     subviewsWidth += subview.frame.width
                 }
             }
-            
+
             let flexibleSubviewsWidth = (self.frame.size.width - subviewsWidth) / CGFloat(flexibleSubviews.count)
             for subview in flexibleSubviews {
                 subview.frame.size.width = flexibleSubviewsWidth
@@ -532,50 +537,52 @@ class UIViewable: UIView {
             if (self.maxHeight == 0) {
                 self.frame.size.height = self.superview!.frame.height
             }
-            
+
             var subviewsHeight:CGFloat = 0
             var flexibleSubviews = [UIView]()
-            
-            for subview in subviews {
+
+            for subview in self.subviews {
                 if (subview.maxHeight == 0) {
                     flexibleSubviews.append(subview)
                 } else {
                     subviewsHeight += subview.frame.height
                 }
             }
-            
+
             let flexibleSubviewsHeight = (self.frame.size.height - subviewsHeight) / CGFloat(flexibleSubviews.count)
             for subview in flexibleSubviews {
                 subview.frame.size.height = flexibleSubviewsHeight
             }
         }
-        
+
         var width:CGFloat = 0
         var height:CGFloat = 0
-    
-        for i in 0..<subviews.count {
-            let subview = subviews[i] as UIView
-            
-            if (Mirror(reflecting:subview).subjectType == UIViewable.self) {
-                let viewable = subview as! UIViewable
+
+        for i in 0..<self.subviews.count {
+            let subview = self.subviews[i] as UIView
+
+            if let viewable = subview as? UIViewable {
                 // .Flew.Row sets the flexWidth of the subview to true
                 if self.display == .Flex(.Row) {
                     viewable.flexWidth = true
                 }
             }
-            
+
             subview.layoutSubviews()
             subview.frame.origin.y = height
-            
-            if (Mirror(reflecting:subview).subjectType == UILabel.self ||
-                Mirror(reflecting:subview).subjectType == UIImageView.self) {
+
+            if subview as? UILabel != nil || subview as? UIImageView != nil {
                 subview.frame.size.width = self.frame.width
                 subview.sizeToFit()
-                
+//                if let label = subview as? UILabel {
+//                    print(subview.frame.size.width)
+//                    print(label.text)
+//                }
+
                 if (self.frame.width > 0 && subview.frame.width > self.frame.width) {
                     subview.frame.size.width = self.frame.width
                 }
-                
+
                 if self.maxHeight == 0 {
                     self.frame.size.height = subview.frame.height
                 } else {
@@ -584,16 +591,13 @@ class UIViewable: UIView {
                     }
                 }
             }
-            
+
             height += subview.frame.height
             
             // TODO? Move display property to UIView
-            if (Mirror(reflecting:subview).subjectType == UIViewable.self) {
-                let viewable = subview as! UIViewable
-
+            if let viewable = subview as? UIViewable {
                 if i > 0 {
-                    if (Mirror(reflecting:subviews[i - 1]).subjectType == UIViewable.self) {
-                        let sibling = subviews[i - 1] as! UIViewable
+                    if let sibling = self.subviews[i - 1] as? UIViewable {
                         if (viewable.flexWidth || (sibling.display == .Inline && viewable.display == .Inline)) {
                             subview.frame.origin.x = sibling.frame.origin.x + sibling.frame.width
                             subview.frame.origin.y = sibling.frame.origin.y
@@ -622,8 +626,7 @@ class UIViewable: UIView {
         // Align the subviews after they have all been layed out
         // Alignment with more than one subview might not be 100% correct
         for subview in self.subviews {
-            if (Mirror(reflecting:subview).subjectType == UIViewable.self) {
-                let viewable = subview as! UIViewable
+            if let viewable = subview as? UIViewable {
                 if viewable.align == .Top(.Left) {
                 } else if viewable.align == .Top(.Center) {
                     viewable.frame.origin.x = self.frame.width - viewable.frame.width - (self.frame.width - viewable.frame.width) / 2

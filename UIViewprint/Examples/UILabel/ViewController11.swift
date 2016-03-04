@@ -22,6 +22,19 @@ class ViewController11: UIViewableController {
         self.view.addSubview(
             div(
                 div(
+                    div(style(display:.Inline, backgroundColor:.yellowColor()),
+                        div(style(width:20, height:10, backgroundColor:.purpleColor())),
+                        div(style(display:.Inline, width:10, height:5, backgroundColor:.redColor())),
+                        div(style(display:.Inline, backgroundColor:.orangeColor()),
+                            label("Testing", style:style(backgroundColor:.grayColor()))
+                        ),
+                        div(style(display:.Inline, width:10, height:5, backgroundColor:.redColor())),
+                        div(style(display:.Block, height:10, backgroundColor:.purpleColor()))
+                    ),
+                    label("Test")
+                ),
+                div(height(10)),
+                div(
                     // Pad .Inline viewable with .Inline subview
                     div(style(display:.Inline, backgroundColor:.orangeColor()),
                         div(style(height:10, backgroundColor:.purpleColor())),

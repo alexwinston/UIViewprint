@@ -29,7 +29,7 @@ class ViewController12: UIScrollViewableController {
         self.scrollView.addSubview(
             div(.Flex(.Row),
                 div(style(width:15)),
-                div(foreach:[Int](1...50)) { (i:Int) in
+                div(foreach:[Int](1...20)) { (i:Int) in
                     return div(
                         div(height(10)),
                         div(.Flex(.Row),
