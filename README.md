@@ -352,6 +352,19 @@ override func viewDidLoad() {
 
 ![UIViewprint Example 5](images/example5.png)
 
+## Padding
+UIViewprint provides CSS padding like functionality that can be defined for each UIViewable.  The example below adds padding around two subviews with the inner most defining a label.
+
+```
+div(style(padding:(top:10, right:10, bottom:10, left:10), backgroundColor:.orangeColor()),
+	div(style(padding:(top:10, right:10, bottom:10, left:10), backgroundColor:.yellowColor()),
+		label("Padded").backgroundColor(.lightGrayColor())
+	)
+)
+``` 
+
+![UIViewprint Example 8](images/example8.png)
+
 ## UITablewView support
 UIViewprint now provides rather robust table view support however some complex edge cases can still be difficult. The easiest way to develop table views in UIViewprint is to use the UITableViewableController class.  This subclass of the UITableViewController provides a number of convenience methods in addition to various important boilerplate code that provides impressive performance out of the box.
 
@@ -729,8 +742,8 @@ self.view
 ![UIViewprint Example 7](images/example7.png)
 
 ## TODO
-* Add the ability to easily pad views
 * Consider using SwiftBox for better layout and performance
+* Depracate operator overloading syntax in favor of new alternate syntax
 
 ## Contact
 Twitter: [@alex_winston](https://twitter.com/alex_winston)

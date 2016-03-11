@@ -16,16 +16,24 @@ class ViewController11: UIViewableController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Example 10"
+        self.title = "Example"
         self.edgesForExtendedLayout = UIRectEdge.None;
 
         self.view.addSubview(
             div(
-                div(
+                div(style(padding:(top:10, right:10, bottom:10, left:10), backgroundColor:.orangeColor()),
+                    div(style(padding:(top:10, right:10, bottom:10, left:10), backgroundColor:.yellowColor()),
+                        label("Padded").backgroundColor(.lightGrayColor())
+                    )
+                ),
+                div(height(100)),
+                div(style(padding:(5,5,5,5), backgroundColor:.yellowColor())),
+                div(height(10)),
+                div(padding:(top:10, right:10, bottom:10, left:10),
                     div(style(display:.Inline, backgroundColor:.yellowColor()),
                         div(style(width:20, height:10, backgroundColor:.purpleColor())),
                         div(style(display:.Inline, width:10, height:5, backgroundColor:.redColor())),
-                        div(style(display:.Inline, backgroundColor:.orangeColor()),
+                        div(style(display:.Inline, padding:(10,10,10,10), backgroundColor:.orangeColor()),
                             label("Testing", style:style(backgroundColor:.grayColor()))
                         ),
                         div(style(display:.Inline, width:10, height:5, backgroundColor:.redColor())),
@@ -43,7 +51,7 @@ class ViewController11: UIViewableController {
                         div(style(display:.Inline, width:10, height:5, backgroundColor:.grayColor())),
                         div(style(height:10, backgroundColor:.purpleColor()))
                     ),
-                    label("Test")
+                    label("Test").padding(UIPadding(top:5, right:5, bottom:5, left:5))
                 ),
                 div(height(10)),
                 // Pad .Block viewable with .Inline subview

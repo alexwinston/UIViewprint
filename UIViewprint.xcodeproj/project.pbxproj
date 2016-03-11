@@ -17,6 +17,8 @@
 		BE9700191C6A80A3008C44FD /* ViewController9.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9700181C6A80A3008C44FD /* ViewController9.swift */; };
 		BE97001B1C6A971C008C44FD /* ViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97001A1C6A971C008C44FD /* ViewController1.swift */; };
 		BE97001D1C6A986B008C44FD /* UIScrollViewableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97001C1C6A986B008C44FD /* UIScrollViewableController.swift */; };
+		BE9F1F2C1C90ADFA004D8BD7 /* PaddingExamplesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F1F2B1C90ADFA004D8BD7 /* PaddingExamplesController.swift */; };
+		BE9F1F2E1C90AE42004D8BD7 /* UIViewPaddingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F1F2D1C90AE42004D8BD7 /* UIViewPaddingController.swift */; };
 		BEAED84F1C513C03006F494F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAED84E1C513C03006F494F /* AppDelegate.swift */; };
 		BEAED8511C513C03006F494F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAED8501C513C03006F494F /* ViewController.swift */; };
 		BEAED8541C513C03006F494F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEAED8521C513C03006F494F /* Main.storyboard */; };
@@ -24,6 +26,7 @@
 		BEAED8591C513C03006F494F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEAED8571C513C03006F494F /* LaunchScreen.storyboard */; };
 		BEAED8641C513C03006F494F /* UIViewprintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAED8631C513C03006F494F /* UIViewprintTests.swift */; };
 		BEAED86F1C513C03006F494F /* UIViewprintUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAED86E1C513C03006F494F /* UIViewprintUITests.swift */; };
+		BEB35F041C931840007FCF73 /* UIViewprintPaddingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB35F031C931840007FCF73 /* UIViewprintPaddingTests.swift */; };
 		BEB686961C88EEB00024C214 /* UITableViewControllerExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB686951C88EEB00024C214 /* UITableViewControllerExamples.swift */; };
 		BEB686981C8944ED0024C214 /* Lorem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB686971C8944ED0024C214 /* Lorem.swift */; };
 		BEB6869A1C8945570024C214 /* VariableRowHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB686991C8945570024C214 /* VariableRowHeight.swift */; };
@@ -84,6 +87,8 @@
 		BE9700181C6A80A3008C44FD /* ViewController9.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController9.swift; sourceTree = "<group>"; };
 		BE97001A1C6A971C008C44FD /* ViewController1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController1.swift; sourceTree = "<group>"; };
 		BE97001C1C6A986B008C44FD /* UIScrollViewableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewableController.swift; sourceTree = "<group>"; };
+		BE9F1F2B1C90ADFA004D8BD7 /* PaddingExamplesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingExamplesController.swift; sourceTree = "<group>"; };
+		BE9F1F2D1C90AE42004D8BD7 /* UIViewPaddingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewPaddingController.swift; sourceTree = "<group>"; };
 		BEAED84B1C513C03006F494F /* UIViewprint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIViewprint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEAED84E1C513C03006F494F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEAED8501C513C03006F494F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +102,7 @@
 		BEAED86A1C513C03006F494F /* UIViewprint.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UIViewprint.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEAED86E1C513C03006F494F /* UIViewprintUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewprintUITests.swift; sourceTree = "<group>"; };
 		BEAED8701C513C03006F494F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEB35F031C931840007FCF73 /* UIViewprintPaddingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewprintPaddingTests.swift; sourceTree = "<group>"; };
 		BEB686951C88EEB00024C214 /* UITableViewControllerExamples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewControllerExamples.swift; sourceTree = "<group>"; };
 		BEB686971C8944ED0024C214 /* Lorem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lorem.swift; sourceTree = "<group>"; };
 		BEB686991C8945570024C214 /* VariableRowHeight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VariableRowHeight.swift; sourceTree = "<group>"; };
@@ -141,6 +147,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE9F1F2A1C90ADE3004D8BD7 /* Padding */ = {
+			isa = PBXGroup;
+			children = (
+				BE9F1F2B1C90ADFA004D8BD7 /* PaddingExamplesController.swift */,
+				BE9F1F2D1C90AE42004D8BD7 /* UIViewPaddingController.swift */,
+			);
+			name = Padding;
+			path = Examples/Padding;
+			sourceTree = "<group>";
+		};
 		BEAED8421C513C03006F494F = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				BEAED8631C513C03006F494F /* UIViewprintTests.swift */,
+				BEB35F031C931840007FCF73 /* UIViewprintPaddingTests.swift */,
 				BEAED8651C513C03006F494F /* Info.plist */,
 			);
 			path = UIViewprintTests;
@@ -207,8 +224,8 @@
 				BED899431C89EADC00327C6E /* ViewController13.swift */,
 				BED899441C89EADC00327C6E /* ViewController14.swift */,
 				BED899451C89EADC00327C6E /* ViewController15.swift */,
-				BED899411C89EAAC00327C6E /* ViewController16.swift */,
 				BEB686991C8945570024C214 /* VariableRowHeight.swift */,
+				BED899411C89EAAC00327C6E /* ViewController16.swift */,
 			);
 			name = UITableViewController;
 			path = Examples/UITableViewController;
@@ -242,6 +259,7 @@
 		BEFBDF5A1C5FC0180006AE93 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				BE9F1F2A1C90ADE3004D8BD7 /* Padding */,
 				BEB686941C88EE910024C214 /* UITableViewController */,
 				BED8993A1C89E8BA00327C6E /* UILabel */,
 				BED8992D1C89E29200327C6E /* AdvancedLayout */,
@@ -399,7 +417,9 @@
 				BEB6869A1C8945570024C214 /* VariableRowHeight.swift in Sources */,
 				BED899471C89EADC00327C6E /* ViewController14.swift in Sources */,
 				BED899461C89EADC00327C6E /* ViewController13.swift in Sources */,
+				BE9F1F2C1C90ADFA004D8BD7 /* PaddingExamplesController.swift in Sources */,
 				BED899391C89E31700327C6E /* ViewController6.swift in Sources */,
+				BE9F1F2E1C90AE42004D8BD7 /* UIViewPaddingController.swift in Sources */,
 				BE97001D1C6A986B008C44FD /* UIScrollViewableController.swift in Sources */,
 				BE97001B1C6A971C008C44FD /* ViewController1.swift in Sources */,
 				BED899371C89E31700327C6E /* ViewController4.swift in Sources */,
@@ -423,6 +443,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEB35F041C931840007FCF73 /* UIViewprintPaddingTests.swift in Sources */,
 				BEAED8641C513C03006F494F /* UIViewprintTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

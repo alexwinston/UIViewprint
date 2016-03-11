@@ -16,6 +16,7 @@ class App {
         self.name = name
     }
 }
+
 class ViewController16: UITableViewableController {
 
     override func viewDidLoad() {
@@ -52,28 +53,36 @@ class ViewController16: UITableViewableController {
                     ]
                 ),
                 section(touchRow, foreach:[Int](1...1000)) { (s:AnyObject) in
-//                    let s = s as! App
                     let s = s as! Int
-                    return div(
-                        div(style(height:10)),
-                        div(.Flex(.Row),
-                            div(style(width:10)),
-                            div(
-                                label("Left \(s)").display(.Block),
-                                label("Right \(s)").align(.Top(.Right))
-                            )
-                        ),
-                        div(style(height:10))
+//                section(touchRow, foreach:apps) { (s:AnyObject) in
+//                    let s = s as! App
+                    return div(padding:(top:10, right:10, bottom:10, left:10),
+                        label("Left \(s)").display(.Block),
+                        label("Right \(s)").align(.Top(.Right))
                     )
-//                    return div(
-//                        label("Left \(s)").display(.Block),
-//                        label("Right \(s)").align(.Top(.Right))
-//                    )
-                }
+                },
+                section(touchRow,
+                    rows: [
+                        div(.Flex(.Row),
+                            button("Redeem", touch:handleRedeem).display(.Flex(.Row)).padding((10,10,10,10)),
+                            button("Send Gift", touch:handleSendGift).display(.Flex(.Row)).padding((10,10,10,10))
+                        )
+                    ]
+                ),
+                section(touchRow,
+                    rows: [
+                        div(style(display:.Flex(.Row), padding:(top:10, right:10, bottom:10, left:10)),
+                            button("Redeem", touch:handleRedeem).display(.Flex(.Row)),
+                            button("Send Gift", touch:handleSendGift).display(.Flex(.Row))
+                        )
+                    ]
+                )
             ],
-            footer: div(
-                button("Redeem", touch:handleRedeem),
-                button("Send Gift", touch:handleSendGift)
+            footer: div(style(display:.Flex(.Row), padding:(top:5, right:5, bottom:5, left:5)),
+                button("Redeem", touch:handleRedeem).display(.Flex(.Row)).style(
+                    style(padding:(10,10,10,10), backgroundColor:.lightGrayColor())),
+                button("Send Gift", touch:handleSendGift).display(.Flex(.Row)).style(
+                    style(padding:(10,10,10,10), backgroundColor:.grayColor()))
             )
         )
 

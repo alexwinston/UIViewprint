@@ -122,6 +122,15 @@ class UITableViewableController: UITableViewController {
 
     typealias UIForeachViewable = (AnyObject) -> UIViewable
     
+    
+    func section(rows:[UIViewable?]) -> UITableViewableSection {
+        return section({ (indexPath:NSIndexPath) -> Void in }, header:nil, rows:rows)
+    }
+    
+    func section(header:String, rows:[UIViewable?]) -> UITableViewableSection {
+        return section({ (indexPath:NSIndexPath) -> Void in }, header:header, rows:rows)
+    }
+    
     func section(selector:(indexPath:NSIndexPath) -> Void, header:String? = nil, foreach:[AnyObject], _ viewable:UIForeachViewable) -> UITableViewableSection {
         return section(selector, header:header, datasource:foreach, viewable)
     }
@@ -136,13 +145,13 @@ class UITableViewableController: UITableViewController {
     }
     
     func defaultTableViewCell(text:String) -> UIViewable {
-        return div(
-            div(style(height:10)),
-            div(.Flex(.Row),
-                div(style(width:10)),
+        return div(padding:(top:10, right:0, bottom:10, left:10),
+//            div(style(height:10)),
+//            div(.Flex(.Row),
+//                div(style(width:10)),
                 label("\(text)")
-            ),
-            div(style(height:10))
+//            ),
+//            div(style(height:10))
         )
     }
 

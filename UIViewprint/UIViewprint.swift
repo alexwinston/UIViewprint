@@ -81,7 +81,11 @@ func div<T>(foreach foreach:[T], _ view:(T) -> UIView) -> UIViewable {
 }
 
 func button(title:String, display:UIViewableDisplay = .Inline, align:UIViewableAlign = .Top(.Left), height:CGFloat? = nil, touch:(UIButton) -> Void) -> UIViewable {
-    // TODO .button
+    var viewable:UIViewable?
+    return button(&viewable, title:title, display:display, align:align, height:height, touch:touch)
+}
+
+func button(inout id:UIViewable?, title:String, display:UIViewableDisplay = .Inline, align:UIViewableAlign = .Top(.Left), height:CGFloat? = nil, touch:(UIButton) -> Void) -> UIViewable {
     let button = UIButton()
     button.setTitle(title, forState: .Normal)
     button.backgroundColor = .blueColor()
@@ -92,13 +96,14 @@ func button(title:String, display:UIViewableDisplay = .Inline, align:UIViewableA
         button.frame.size.height = height
     }
     
-    let view = UIViewable(style: UIViewableStyle(display:display))
-    view.addSubview(button)
-    view.align(align)
+    let viewable = UIViewable(style: UIViewableStyle(display:display))
+    viewable.addSubview(button)
+    viewable.align(align)
     
-    return view
+    id = viewable
+    
+    return viewable
 }
-
 
 func width(width:CGFloat) -> UIViewable {
     return UIViewable(style:UIViewableStyle(width:width))
@@ -495,6 +500,7 @@ class UIViewable: UIView {
         }
         self.needsLayout = false
         
+        // TODO? UIButton
         if !self.flexWidth && self.subviews.count == 1 && (self.subviews[0] as? UILabel != nil) {
             self.frame.size = CGSizeZero
             self.subviews[0].frame.size = CGSizeZero
@@ -505,6 +511,9 @@ class UIViewable: UIView {
             self.frame.size.width = self.superview!.frame.width
             // .Block viewables with a .Inline superview require subsequent layout to determine width
             if let superview = self.superview as? UIViewable {
+                self.frame.size.width -= superview.padding.left
+                self.frame.size.width -= superview.padding.right
+                
                 if superview.display == .Inline {
                     self.needsLayout = true
                 }
@@ -512,10 +521,15 @@ class UIViewable: UIView {
         }
 
         // TODO Flex columns and rows need to layout subviews to determine the appropriate height and width.
-        // If subviews are larger than the alloted flex height and width the views are clipped
+        // If subviews are larger than the alloted flex height and width? the views are clipped
         if (self.display == .Flex(.Row) && self.superview != nil) {
             if (!self.flexWidth && self.maxWidth == 0) {
                 self.frame.size.width = self.superview!.frame.width
+                
+                if let superview = self.superview as? UIViewable {
+                    self.frame.size.width -= superview.padding.left
+                    self.frame.size.width -= superview.padding.right
+                }
             }
 
             var subviewsWidth:CGFloat = 0
@@ -528,6 +542,8 @@ class UIViewable: UIView {
                     subviewsWidth += subview.frame.width
                 }
             }
+            
+            subviewsWidth = subviewsWidth + self.padding.left + self.padding.right
 
             let flexibleSubviewsWidth = (self.frame.size.width - subviewsWidth) / CGFloat(flexibleSubviews.count)
             for subview in flexibleSubviews {
@@ -557,6 +573,7 @@ class UIViewable: UIView {
 
         var width:CGFloat = 0
         var height:CGFloat = 0
+        height += self.padding.top
 
         for i in 0..<self.subviews.count {
             let subview = self.subviews[i] as UIView
@@ -590,18 +607,32 @@ class UIViewable: UIView {
                         subview.frame.size.height = self.maxHeight
                     }
                 }
+                
+                if (self.padding.left > 0 && self.frame.origin.x == 0) {
+                    subview.frame.origin.x = self.frame.origin.x + self.padding.left
+                    width = subview.frame.width + self.padding.left
+                }
+            } else if (subview as? UIButton != nil) {
+                if (self.padding.left > 0 && self.frame.origin.x == 0) {
+                    subview.frame.origin.x = self.frame.origin.x + self.padding.left
+                    width = subview.frame.width + self.padding.left
+                }
             }
 
             height += subview.frame.height
-            
+
             // TODO? Move display property to UIView
             if let viewable = subview as? UIViewable {
+                if self.padding.left > 0 && viewable.frame.origin.x == 0 {
+                    viewable.frame.origin.x = self.frame.origin.x + self.padding.left
+                }
+
                 if i > 0 {
                     if let sibling = self.subviews[i - 1] as? UIViewable {
                         if (viewable.flexWidth || (sibling.display == .Inline && viewable.display == .Inline)) {
                             subview.frame.origin.x = sibling.frame.origin.x + sibling.frame.width
                             subview.frame.origin.y = sibling.frame.origin.y
-                            
+
                             height -= subview.frame.height
                             if ((self.frame.origin.y + height) < (self.frame.origin.y + subview.frame.origin.y + subview.frame.height)) {
                                 height = (subview.frame.origin.y + subview.frame.height)
@@ -610,19 +641,23 @@ class UIViewable: UIView {
                     }
                 }
             }
-            
+
             width = max(width, subview.frame.origin.x + subview.frame.width)
         }
-        
+
+        width += self.padding.right
+
         if (self.display == .Inline && self.frame.width == 0) {
             self.frame.size.width = width
         }
-        
+
+        height += self.padding.bottom
+
         // TODO Refactor so orientation change can decrease the height
         if (self.frame.height < height) {
             self.frame.size.height = height
         }
-        
+
         // Align the subviews after they have all been layed out
         // Alignment with more than one subview might not be 100% correct
         for subview in self.subviews {
@@ -631,7 +666,7 @@ class UIViewable: UIView {
                 } else if viewable.align == .Top(.Center) {
                     viewable.frame.origin.x = self.frame.width - viewable.frame.width - (self.frame.width - viewable.frame.width) / 2
                 } else if viewable.align == .Top(.Right) {
-                    viewable.frame.origin.x = self.frame.width - viewable.frame.width
+                    viewable.frame.origin.x = self.frame.width - self.padding.right - viewable.frame.width
                 } else if viewable.align == .Middle(.Left) {
                     viewable.frame.origin.y = self.frame.height - viewable.frame.height - (self.frame.height - viewable.frame.height) / 2
                 } else if viewable.align == .Middle(.Center) {
@@ -646,7 +681,7 @@ class UIViewable: UIView {
                     viewable.frame.origin.x = self.frame.width - viewable.frame.width - (self.frame.width - viewable.frame.width) / 2
                     viewable.frame.origin.y = self.frame.height - viewable.frame.height
                 } else if viewable.align == .Bottom(.Right) {
-                    viewable.frame.origin.x = self.frame.width - viewable.frame.width
+                    viewable.frame.origin.x = self.frame.width - self.padding.right - viewable.frame.width
                     viewable.frame.origin.y = self.frame.height - viewable.frame.height
                 }
             }

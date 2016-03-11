@@ -22,6 +22,7 @@ class ViewController: UITableViewController {
 
     var examples: [ExampleControllerDetails] = [
         ExampleControllerDetails(name:"App Store example", controller:ViewController1.self),
+        ExampleControllerDetails(name:"UIView padding examples", controller:PaddingExamplesController.self),
         ExampleControllerDetails(name:"UILabel examples", controller:UILabelExamples.self),
         ExampleControllerDetails(name:"UITableViewController examples", controller:UITableViewControllerExamples.self),
         ExampleControllerDetails(name:"Neon comparison example", controller:ViewController7.self),
