@@ -171,7 +171,7 @@ class ViewController: UIScrollViewableController {
 In addition this project attemps to borrow ideas from React Native but tailored specifically to iOS.
 
 ## Deprecated syntax
-The operator overloading syntax that this project initially used has now been deprecated.  Although it was fascinating to see how far operator overloading could be pushed it was all that useful in a practical sense.  Especially considering how often it crashed the Xcode editor and the problems with code alignment.
+The operator overloading syntax that this project initially used has now been deprecated.  Although it was fascinating to see how far operator overloading could be pushed it wasn't all that useful in a practical sense.  Especially considering how often it crashed the Xcode editor and the problems with code alignment.
 
 ### Example 6 deprecated syntax
 
@@ -214,65 +214,64 @@ func largeRoundedStyle(view:UIView) {
 ## The Basics
 UIViewprint grew out of various shortcomings and frustrations with Interface Builder, Auto Layout, Stack Views and the myriad of Swift frameworks that attempt to make Auto Layout easier. In an effort to reimagine how layout could be improved a structure similar to HTML and CSS was adopted given it's ubiquity and surprising ability to model heirarchical views quite well.
 
+Specifically UIViewprint implements the layout behavior inherent in HTML and CSS which provides familiarity for web developers while also providing concise programmatic views. Given the popularity of frameworks like React Native this decision caters to the large development community that expects simple and predictable layout.
+
 ### Example 1
 UIViewprint can be utilized from a controller or any code that initializes a view. In the examples below a basic UIViewController is assumed.
 
-```
+```swift
 override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view
-    	// Could use UIView.view if Xcode complains about ambiguities
-        < .view>>
+    self.view.addSubview(
+        div()
+    )
 }
 ```
 
-In this particular example a blank "block" style view is added as a subview to the controllers view.  Because it does not contain any children or have a specified height nothing is displayed. Of interest however is the two overloaded operators "<" and ">>".
+In this particular example a blank "block" style view is added as a subview to the controllers view.  Because it does not contain any children or have a specified height nothing is displayed.
 
-The overloaded infix operator "<" is used to trigger the addition of a subview.  In this case to the controllers view.  The UIView.view is an extension that provides a simple way to initialize a new view (UIViewable).
-The overloaded postfix operator ">>" is used to trigger the close of the view.  This is somewhat analogous to &lt;div&gt;&lt;/div&gt;
+The div function is the primary mechanism to initialize a new view (UIViewable).
 
 
 ### Example 2
 
-In this example a view is added to the top of the controllers view with a height of 10 and width of the controllers view.  By default UIViewables are displayed as "block" elements and as such expand to fill the width of the parent view.
+In this example a view is added as a subview to the controllers view with a height of 10 and width of the controllers view.  By default UIViewables are displayed as "block" elements and as such expand to fill the width of the parent view.
 
-```
+```swift
 override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view
-        < .view(.style(height:10, backgroundColor:.orangeColor()))>>
-        // This is shorthand for UIViewable().style(height:10)
+    self.view.addSubview(
+        div(style(height:10, backgroundColor:.orangeColor()))
+    )
+    // An alternative fluent style syntax exists that would look like the following
+    // div().height(10).backgroundColor(.orangeColor())
 }
 ```
 ![UIViewprint Example 2](images/example2.png)
 
 ### Example 3
 
-In this example UILabels are introduced as well as several more overloaded operators
+In this example UILabels are introduced along with display types which is inherent to each UIViewable.
 
-```
+```swift
 override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view
-        < .view+>
-            < "Label 1">>
-            < "Label 2">>
-            < "Label 3"==.display(.Block)>>
-        < .view/>
+    self.view.addSubview(
+	    div(
+	        label("Label 1"),
+	        label("Label 2"),
+	        label("Label 3", style:style(display:.Block))
+	    )
+	)
 }
 ```
 
 ![UIViewprint Example 3](images/example3.png)
 
 Of interest is the fact that by default UILabels are analogous to "inline" elements.  Label 1 and label 2 align inline.  Label 3 is pushed below the previous labels because it's display property has been set to "block".
-
-Additionally the "+>" and "/>" operators have been introduced.
-
-The "+>" operator is used to "open" a new view so subviews can be added. 
-The "/>" operator is used to close the view that was previously opened.
 
 This is similar to the following HTML
 
@@ -294,18 +293,19 @@ Flex rows are similar to an HTML flex container with flex row items. Unlike  CSS
 override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view
-        < .flexRow()+>
-            < "Label 1">>
-            < "Label 2">>
-            < "Label 3">>
-        < .view/>
+    self.view.addSubview(
+        div(style(display:.Flex(.Row)),
+            label("Label 1"),
+            label("Label 2"),
+            label("Label 3")
+        )
+    )
 }
 ```
 
 ![UIViewprint Example 4](images/example4.png)
 
-As expected three evenly spaced views have been created that each contain the specified label.  The views within a flex row are by default aligned top left.
+As expected three evenly spaced views have been created that each contain the specified label.  The views within a flex row are by default aligned top left. It should be noted that UIViewprint will intelligently resize views on orientation change.
 
 If however the first label specifies a width of 100 then the remaining views divide the space evenly after accounting for the fixed width view.
 
@@ -313,18 +313,19 @@ If however the first label specifies a width of 100 then the remaining views div
 override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view
-        < .flexRow()+>
-            < "Label 1"==.width(100)>>
-            < "Label 2">>
-            < "Label 3">>
-        < .view/>
+    self.view.addSubview(
+        div(style(display:.Flex(.Row)),
+            label("Label 1").width(100),
+            label("Label 2"),
+            label("Label 3")
+        )
+    )
 }
 ```
 
 ## Flex columns
 
-Flex columns are similar to to flex rows but stretch along the Y axis. Views within a flex column are automatically divided equally among the parent views height unless a view specifically defines a height.
+Flex columns are similar to flex rows but stretch along the Y axis. Views within a flex column are automatically divided equally among the parent views height unless a view specifically defines a height.
 
 ### Example 5
 
@@ -332,22 +333,35 @@ Flex columns are similar to to flex rows but stretch along the Y axis. Views wit
 override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view
-        < .flexColumn()+>
-            < .view+>
-                < "Label 1">>
-            < .view/>
-            < .view+>
-                < "Label 2">>
-            < .view/>
-            < .view+>
-                < "Label 3">>
-            < .view/>
-        < .view/>
+    self.view.addSubview(
+        div(style(display:.Flex(.Column)),
+            div(
+                label("Label 1")
+            ),
+            div(
+                label("Label 2")
+            ),
+            div(
+                label("Label 3")
+            )
+        )
+    )
 }
 ```
 
 ![UIViewprint Example 5](images/example5.png)
+
+## UIKit Controls
+UIViewprint provides wrappers for a large number of default iOS UIKit controls. Detailed examples are provided in the project source repository.
+
+- UILabel
+- UIButton
+- UITextField
+- UIImageView
+- UISegmentedControl
+- UITableView 
+
+Please file bug reports or pull requests for controls that are not currently supported or do not provide adequate configuration.
 
 ## Padding
 UIViewprint provides CSS padding like functionality that can be defined for each UIViewable.  The example below adds padding around two subviews with the inner most defining a label.
