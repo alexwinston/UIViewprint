@@ -190,10 +190,10 @@
 				BED0EFB91C854283001851A8 /* UITableViewableController.swift */,
 				BE8FFD2A1C5C8B1A0030EAC7 /* EZLoadingActivity.swift */,
 				BE8FFD341C5C8BCE0030EAC7 /* AIFlatSwitch.swift */,
+				BEB686971C8944ED0024C214 /* Lorem.swift */,
 				BEFBDF5A1C5FC0180006AE93 /* Examples */,
 				BEAED85A1C513C03006F494F /* Info.plist */,
 				BEAED8551C513C03006F494F /* Assets.xcassets */,
-				BEB686971C8944ED0024C214 /* Lorem.swift */,
 			);
 			path = UIViewprint;
 			sourceTree = "<group>";

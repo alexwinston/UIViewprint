@@ -16,34 +16,20 @@ class ViewController12: UIScrollViewableController {
         
         self.title = "Example 11"
 //        self.edgesForExtendedLayout = UIRectEdge.None;
-        
-//        self.view.addSubview(
-//            div(
-//                div(style(height:10, backgroundColor:.orangeColor())),
-//                div(style(height:10, backgroundColor:.yellowColor()),
-//                    label("Test")
-//                )
-//            )
-//        )
 
+        // TODO refactor to reduce the number of nested UIViewables
         self.scrollView.addSubview(
-            div(.Flex(.Row),
-                div(style(width:15)),
+            div(style(padding:(0,0,0,left:15)), subviews:
                 div(foreach:[Int](1...20)) { (i:Int) in
                     return div(
-                        div(height(10)),
-                        div(.Flex(.Row),
+                        div(style(display:.Flex(.Row), padding:(top:10,right:10,bottom:10,0)),
                             image("friends", contentMode:.ScaleAspectFill).style(style(width:40, height:40, backgroundColor:.orangeColor())),
-                            div(style(width:10)),
-                            div(
+                            div(style(padding:(0,0,0,left:10)),
                                 label("Name", font:.boldSystemFontOfSize(20)),
-                                div(height(2)),
-                                label("This is test \(String(i)) of the emergency broadcast system", lineBreakMode:.ByTruncatingTail, numberOfLines:1, font:.systemFontOfSize(12)).style(style(display:.Block))
-                            ),
-                            div(style(width:10))
+                                label("This is test \(String(i)) of the emergency broadcast system", lineBreakMode:.ByTruncatingTail, numberOfLines:1, font:.systemFontOfSize(12)).style(style(display:.Block, padding:(top:2,0,0,0)))
+                            )
                         ),
-                        div(height(10)),
-                        div(style(height:1, backgroundColor:.lightGrayColor()))
+                        hr(padding:(top:0,0,0,0), color:.lightGrayColor())
                     )
                 }
             )

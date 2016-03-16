@@ -13,15 +13,15 @@ a blueprint for success.
 ![](images/example1.png)
 
 ```
-class ViewController1: UIScrollViewableController {
+class ViewController: UIScrollViewableController {
     
-    var sellerItem = UIViewable()
-    var categoryItem = UIViewable()
-    var compatibilityItem = UIViewable()
-    
+    var sellerLabel:UIViewable?
+    var categoryLabel:UIViewable?
+    var compatibilityLabel:UIViewable?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let appDetails = AppDetails()
         appDetails.name = "Day One 2 Journal + Notes"
         appDetails.developer = "Bloom Built, LLC"
@@ -31,187 +31,184 @@ class ViewController1: UIScrollViewableController {
         appDetails.reviews = 385
         appDetails.editorsNotes = "It's hard to make the best even better, but the sequel to Day One lives up to the expectations -- and then some."
 
-        super.scrollView
-            < .view+>
-                < .view(style(height:10))>>
-                < .flexRow()+>
-                    < width(10)>>
-                    < image("logo").width(80).height(80).style(logoStyle)>>
-                    < width(10)>>
-                    < .view+>
-                        < .flexRow()+>
-                            < appDetails.name>>
-                            < label(appDetails.rating, style:ratingLabelStyle).width(20)>>
-                            < width(10)>>
-                        < .view/>
-                        < .view+>
-                            < label("\(appDetails.developer)", font:.systemFontOfSize(12))>>
-                            < label(" >", font:.systemFontOfSize(11))>>
-                        < .view/>
-                        < .view+>
-                        < label("Editors' Choice", style:editorsChoiceLabelStyle)>>
-                        < .view/>
-                        < .flexRow()+>
-                            < .view(style(.Flex(.Row), align:.Bottom(.Left)))+>
-                                < .view(style(.Flex(.Row), align:.Middle(.Left), width:55))+>
-                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                    < CircleView(frame:CGRect(x:0, y:0, width:10, height:10))>>
-                                < .view/>
-                                < label("(\(appDetails.reviews))", font:.systemFontOfSize(10))>>
-                            < .view/>
-                            < width(50).height(20).style(priceStyle)+>
-                                < .view(style(.Inline, width:3))>>
-                                < label("+", font:.boldSystemFontOfSize(8)).align(.Top(.Left))>>
-                                < label("$\(appDetails.price)", font:.boldSystemFontOfSize(12)).align(.Middle(.Left))>>
-                            < .view/>
-                            < width(10)>>
-                        < .view/>
-                    < .view/>
-                < .view/>
-                < height(10)>>
-                < .flexRow()+>
-                    < width(10)>>
-                    < image("logo").width(15).height(15).style(watchLogoStyle)>>
-                    < width(5)>>
-                    < label("Offers Apple Watch App for iPhone", style:watchLabelStyle).align(.Middle(.Left))>>
-                < .view/>
-                < height(10)>>
-                < segment(items:["Details", "Reviews", "Related"], color:.grayColor()).align(.Top(.Center))>>
-                < hr(padding(top:10), color:.lightGrayColor())>>
-                < .flexRow()+>
-                    < width(10)>>
-                    < .view+>
-                        < .view(style(height:40))+>
-                            < label("App Store Editors' Notes").align(.Middle(.Left))>>
-                        < .view/>
-                        < label(appDetails.editorsNotes, display:.Block, font:.systemFontOfSize(12))>>
-                        < hr(padding(top:10, bottom:10), color:.lightGrayColor())>>
-                        < label("Supports", display:.Block)>>
-                        < height(10)>>
-                        < .flexRow()+>
-                            < image("gamecenter").width(30).height(30)>>
-                            < .view+>
-                                < label("Game Center", font:.systemFontOfSize(12), display:.Block)>>
-                                < label("Challenge friends and check leaderboards and achievements.", display:.Block, style:informationLabelStyle)>>
-                            < .view/>
-                        < .view/>
-                        < hr(padding(top:10, bottom:10), color:.lightGrayColor())>>
-                        < label("Information", display:.Block)>>
-                        < .view+>
-                            < informationItem(&sellerItem, title:"Seller", description:appDetails.developer)>>
-                            < informationItem(&categoryItem, title:"Category", description:appDetails.category)>>
-                            < informationItem(&compatibilityItem, title:"Compatibility", description:"Requires iOS 9.0 or later. Compatible with iPhone, iPad, and iPos touch.")>>
-                        < .view/>
-                    < .view/>
-                    < width(10)>>
-                < .view/>
-            < .view/>
+        super.scrollView.addSubview(
+            div(style(padding:(10,0,0,0)),
+                div(style(display:.Flex(.Row), padding:(0,right:10,0,10)),
+                    image("logo", style:style(width:80, height:80), appearance:logoStyle),
+                    div(style(padding:(0,0,0,10)),
+                        div(.Flex(.Row),
+                            label(appDetails.name),
+                            label(appDetails.rating, style:style(width:20, padding:(0,right:10,0,0)), appearance:ratingLabelStyle)
+                        ),
+                        div(
+                            label("\(appDetails.developer)", font:.systemFontOfSize(12)),
+                            label(" >", font:.systemFontOfSize(11))
+                        ),
+                        div(
+                            label("Editors' Choice", style:style(padding:(1,5,1,5)), appearance:editorsChoiceLabelStyle)
+                        ),
+                        div(style(display:.Flex(.Row)),
+                            div(style(display:.Flex(.Row), align:.Bottom(.Left)),
+                                div(style(display:.Flex(.Row), align:.Middle(.Left), width:55), subviews:
+                                    div(foreach:[Int](1...5)) { (i:Int) in
+                                        return StarView(frame:CGRect(x:0, y:0, width:10, height:10))
+                                    }
+                                ),
+                                label("(\(appDetails.reviews))", font:.systemFontOfSize(10))
+                            ),
+                            div(style(width:52, height:24), appearance:priceStyle,
+                                label("+", font:.boldSystemFontOfSize(8), style:style(align:.Top(.Left), padding:(0,0,0,3))),
+                                label("$\(appDetails.price)", font:.boldSystemFontOfSize(12)).align(.Middle(.Left))
+                            )
+                        )
+                    )
+                ),
+                div(style(display:.Flex(.Row), padding:(10,10,0,10)),
+                    image("logo", style:style(width:15,height:15), appearance:watchLogoStyle),
+                    label("Offers Apple Watch App for iPhone", style:style(align:.Middle(.Left), padding:(0,0,0,5)), appearance:watchLabelStyle)
+                ),
+                segment(style(align:.Top(.Center), padding:(10,0,0,0)), items:["Details", "Reviews", "Related"], color:.grayColor()),
+                hr(padding:(top:10,0,0,0), color:.lightGrayColor()),
+                div(style(padding:(0,0,0,left:10)),
+                    div(style(height:40),
+                        label("App Store Editors' Notes").align(.Middle(.Left))
+                    ),
+                    label(appDetails.editorsNotes, style:style(display:.Block), font:.systemFontOfSize(12)),
+                    hr(padding:(top:10,0,0,0), color:.lightGrayColor()),
+                    div(style(display:.Flex(.Row), padding:(top:10,0,0,0)),
+                        image("gamecenter").width(30).height(30),
+                        div(style(padding:(0,0,0,left:10)),
+                            label("Game Center", font:.systemFontOfSize(12), style:style(display:.Block)),
+                            label("Challenge friends and check leaderboards and achievements.", style:style(display:.Block), appearance:informationLabelStyle)
+                        )
+                    ),
+                    hr(padding:(top:10,0,bottom:10,0), color:.lightGrayColor()),
+                    label("Information", style:style(display:.Block)),
+                    div(style(padding:(top:5,0,0,0)),
+                        informationItem(&sellerLabel, title:"Seller", description:appDetails.developer),
+                        informationItem(&categoryLabel, title:"Category", description:appDetails.category),
+                        informationItem(&compatibilityLabel, title:"Compatibility", description:"Requires iOS 9.0 or later. Compatible with iPhone, iPad, and iPos touch.")
+                    )
+                )
+            )
+        )
     }
-    
-    func informationItem(inout view:UIViewable, title:String, description:String) -> UIView {
-        return UIViewable()
-            < .flexRow()+>
-                < view+>
-                    < label(title, style:informationLabelStyle).align(.Top(.Right))>>
-                < .view/>
-                < width(10)>>
-                < label(description, font:.systemFontOfSize(12))>>
-            < .view/>
+
+    func informationItem(inout view:UIViewable?, title:String, description:String) -> UIViewable {
+        return
+            div(.Flex(.Row),
+                div(&view, style(padding:(0,right:10,0,0)),
+                    label(title, appearance:informationLabelStyle).align(.Top(.Right))
+                ),
+                label(description, font:.systemFontOfSize(12))
+            )
     }
-    
+
     func layerStyle(layer:CALayer, borderWidth:CGFloat, borderColor:UIColor, cornerRadius:CGFloat = 0) {
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.CGColor
         layer.cornerRadius = cornerRadius
     }
-    
-    func logoStyle(view:UIView) {
+
+    func logoStyle(view:UIImageView) {
         layerStyle(view.layer, borderWidth:0.5, borderColor:.grayColor(), cornerRadius:15.0)
         view.clipsToBounds = true
     }
-    
+
     func watchLogoStyle(view:UIView) {
         layerStyle(view.layer, borderWidth:0.5, borderColor:.grayColor(), cornerRadius:7.5)
         view.clipsToBounds = true
     }
-    
+
     func watchLabelStyle(label:UILabel) {
         label.textColor = UIColor(red: 106/255.0, green: 113/255.0, blue: 127/255.0, alpha: 1.0)
         label.font = .boldSystemFontOfSize(10.0)
     }
-    
+
     func ratingLabelStyle(label:UILabel) {
         layerStyle(label.superview!.layer, borderWidth:1, borderColor:.grayColor())
         label.textColor = .lightGrayColor()
         label.font = .systemFontOfSize(11)
         label.textAlignment = .Right
     }
-    
+
     func editorsChoiceLabelStyle(label:UILabel) {
         label.superview!.backgroundColor = .grayColor()
-        label.superview!.layer.cornerRadius = 6
+        label.superview!.layer.cornerRadius = 7
         label.superview!.clipsToBounds = true
         
         label.textColor = .whiteColor()
         label.font = .systemFontOfSize(10.0)
     }
-    
+
     func priceStyle(view:UIView) {
         layerStyle(view.layer, borderWidth:1, borderColor:view.self.tintColor!, cornerRadius:4.0)
         view.clipsToBounds = true
     }
-    
+
     func informationLabelStyle(label:UILabel) {
         label.textColor = .lightGrayColor()
         label.font = .systemFontOfSize(12.0)
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        let informationItemWidth = CGFloat(self.view.frame.width * 0.25)
-        self.sellerItem.width(informationItemWidth)
-        self.categoryItem.width(informationItemWidth)
-        self.compatibilityItem.width(informationItemWidth)
+        let informationItemWidth = CGFloat(self.view.frame.width * 0.3)
+        self.sellerLabel!.width(informationItemWidth)
+        self.categoryLabel!.width(informationItemWidth)
+        self.compatibilityLabel!.width(informationItemWidth)
     }
 }
 ```
 
 ## Disclaimer
 
-**UIViewprint** is in a beta-ish state and pushes Swift operator overloading and various language features to the absolute limit. I have been pleasently surprised with what is possible in Swift and the performance this approach provides.
+**UIViewprint** is currently in Beta and pushes various Swift language features to the absolute limit. Swift is an amazing language and I have been pleasently surprised with what is possible and the performance the runtime provides.
 
-**This is currently a thought experiment to demonstrate how layout can be simplified with Swift operator overloading.  The operators chosen are ment to mimic HTML but other operators might actually be better.**
+**This was previously a thought experiment to demonstrate how layout can be simplified with Swift operator overloading. This layout syntax has now been deprecated in favor of a more editor friendly syntax.**
 
 In addition this project attemps to borrow ideas from React Native but tailored specifically to iOS.
 
-## Alternative syntax
-There is experimental support for programmatic view layout that does not use operator overloading. It would be great to get feedback on which syntax is the most useable. The UITableView examples are currently provided using this syntax for comparison.
+## Deprecated syntax
+The operator overloading syntax that this project initially used has now been deprecated.  Although it was fascinating to see how far operator overloading could be pushed it was all that useful in a practical sense.  Especially considering how often it crashed the Xcode editor and the problems with code alignment.
 
-### Example 6 from below refactored
+### Example 6 deprecated syntax
 
 ```
-self.view.addSubview(
-    div(.Flex(.Column),
-        div(),
-        div(.Flex(.Row),
-            div(style(width:10)),
-            div(
-                input(placeholder:"Email", appearance:largeFontRoundedCorners),
-                div(style(height:10)),
-                input(placeholder:"Password", appearance:largeFontRoundedCorners)
-            ),
-            div(style(width:10))
-        ),
-        div(),
-        div(
-            button("Login", display:.Flex(.Row), align:.Bottom(.Left), height:80, touch:login)
-        )
-    )
-)
+var emailTextField:UITextField?
+var passwordTextField:UITextField?
+    
+self.view
+    < .flexColumn()+>
+        < .view>>
+        < .flexRow()+>
+            < .view(.style(width:10))>>
+            < .view+>
+                < .input(&emailTextField, "Email", style:largeRoundedStyle)>>
+                < .view(.style(height:10))>>
+                < .input(&passwordTextField, "Password", style:largeRoundedStyle)>>
+            < .view/>
+            < .view(.style(width:10))>>
+        < .view/>
+        < .view>>
+        < .view+>
+            < .button("Login", display:.Flex(.Row), height:80, touch:login).align(.Bottom(.Left))>>
+        < .view/>
+    < .view/>
+ 
+func login(button:UIButton) {
+    print(emailTextField!.text)
+}
+    
+func largeRoundedStyle(view:UIView) {
+    if let textField = view as? UITextField {
+        textField.borderStyle = .RoundedRect
+        textField.frame.size.height = 60
+        textField.font = UIFont(name: "HelveticaNeue-Light", size: 26)
+    }
+}
+
 ```
 
 ## The Basics
@@ -557,34 +554,42 @@ This example demonstrates how layout compares to the popular [Stevia](https://gi
 ```swift
 var emailTextField:UITextField?
 var passwordTextField:UITextField?
+
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    self.title = "Example 6"
+    self.edgesForExtendedLayout = UIRectEdge.None;
     
-self.view
-    < .flexColumn()+>
-        < .view>>
-        < .flexRow()+>
-            < .view(.style(width:10))>>
-            < .view+>
-                < .input(&emailTextField, "Email", style:largeRoundedStyle)>>
-                < .view(.style(height:10))>>
-                < .input(&passwordTextField, "Password", style:largeRoundedStyle)>>
-            < .view/>
-            < .view(.style(width:10))>>
-        < .view/>
-        < .view>>
-        < .view+>
-            < .button("Login", display:.Flex(.Row), height:80, touch:login).align(.Bottom(.Left))>>
-        < .view/>
-    < .view/>
- 
+    self.view.addSubview(
+        div(.Flex(.Column),
+            div(),
+            div(style(padding:(0,right:10,0,left:10)),
+                input(&emailTextField, placeholder:"Email", style:style(padding:(0,0,bottom:5,0)), appearance:largeFontRoundedCorners),
+                input(placeholder:"Password", appearance:largeFontRoundedCorners)
+            ),
+            div(),
+            div(
+                button("Login", display:.Flex(.Row), align:.Bottom(.Left), height:80, touch:login)
+            )
+        )
+    )
+}
+
+func roundedCorners(textField:UITextField) {
+    textField.borderStyle = .RoundedRect
+}
+    
 func login(button:UIButton) {
     print(emailTextField!.text)
 }
     
-func largeRoundedStyle(view:UIView) {
+func largeFontRoundedCorners(view:UIView) {
     if let textField = view as? UITextField {
         textField.borderStyle = .RoundedRect
-        textField.frame.size.height = 60
+        textField.frame.size.height = 54
         textField.font = UIFont(name: "HelveticaNeue-Light", size: 26)
+        textField.returnKeyType = .Done
     }
 }
 ```
@@ -743,7 +748,6 @@ self.view
 
 ## TODO
 * Consider using SwiftBox for better layout and performance
-* Depracate operator overloading syntax in favor of new alternate syntax
 
 ## Contact
 Twitter: [@alex_winston](https://twitter.com/alex_winston)

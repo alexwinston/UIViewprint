@@ -31,7 +31,6 @@ class ViewController7: UIViewableController {
                     < .view(style(display:.Flex(.Row), align:.Bottom(.Left)))+>
                         < .view(style(display:.Flex(.Row)))+>
                             < width(10)>>
-                            // TODO Incorrect height when orientation changes from landscape to portrait
                             < image(&avatarImageView, name:"avatar")>>
                             < .view(style(align:.Middle(.Left)))+>
                                 < label("Alex", style:style(display:.Block), appearance:avatarNameStyle)>>

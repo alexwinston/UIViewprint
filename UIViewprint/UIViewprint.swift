@@ -41,14 +41,19 @@ extension UIControl: NSControlActionFunctionProtocol {}
 
 // UIViewable helper functions
 func div() -> UIViewable { return div(UIViewableStyle()) }
+func div(view view:UIView) -> UIViewable {
+    let viewable = UIViewable()
+    viewable.addSubview(view)
+    return viewable
+}
 func div(subviews:UIViewable...) -> UIViewable {
     return div(UIViewableStyle(), subviews:subviews)
 }
-func div(style:UIViewableStyle, subviews:[UIViewable]) -> UIViewable {
+func div(style:UIViewableStyle, appearance:((UIView) -> Void)? = nil, subviews:[UIViewable]) -> UIViewable {
     var viewable:UIViewable?
-    return div(&viewable, style:style, subviews:subviews)
+    return div(&viewable, style:style, appearance:appearance, subviews:subviews)
 }
-func div(inout id:UIViewable?, style:UIViewableStyle = UIViewableStyle(), subviews:[UIViewable]) -> UIViewable {
+func div(inout id:UIViewable?, style:UIViewableStyle = UIViewableStyle(), appearance:((UIView) -> Void)? = nil, subviews:[UIViewable]) -> UIViewable {
     let viewable = UIViewable(style:style)
 //    print("div \(String(ObjectIdentifier(viewable).uintValue))")
     for subview in subviews {
@@ -56,11 +61,22 @@ func div(inout id:UIViewable?, style:UIViewableStyle = UIViewableStyle(), subvie
     }
     
     id = viewable
+    
+    if let appearance = appearance {
+        appearance(viewable)
+    }
 
     return viewable
 }
-func div(style:UIViewableStyle, _ subviews:UIViewable...) -> UIViewable {
-    return div(style, subviews:subviews)
+//func div(style:UIViewableStyle, _ subviewables:UIView...) -> UIViewable {
+//    return div(style, subviews:subviewables.map({ (view) -> UIViewable in
+//        let viewable = UIViewable(style:style)
+//        viewable.addSubview(view)
+//        return viewable
+//    }))
+//}
+func div(style:UIViewableStyle, appearance:((UIView) -> Void)? = nil, _ subviews:UIViewable...) -> UIViewable {
+    return div(style, appearance:appearance, subviews:subviews)
 }
 func div(inout id:UIViewable?, _ subviews:UIViewable...) -> UIViewable {
     return div(&id, style:UIViewableStyle(), subviews:subviews)
@@ -72,12 +88,14 @@ func div(display:UIViewableDisplay = .Block, align:UIViewableAlign = .Top(.Left)
     let style = UIViewableStyle(display:display, align:align, padding:padding)
     return div(style, subviews:subviews)
 }
-func div<T>(foreach foreach:[T], _ view:(T) -> UIView) -> UIViewable {
-    let viewable = UIViewable()
+func div<T>(foreach foreach:[T], _ view:(T) -> UIView) -> [UIViewable] {
+    var viewables = [UIViewable]()
     for t in foreach {
+        let viewable = UIViewable()
         viewable.addSubview(view(t))
+        viewables.append(viewable)
     }
-    return viewable
+    return viewables
 }
 
 func button(title:String, display:UIViewableDisplay = .Inline, align:UIViewableAlign = .Top(.Left), height:CGFloat? = nil, touch:(UIButton) -> Void) -> UIViewable {
@@ -113,11 +131,10 @@ func height(height:CGFloat) -> UIViewable {
     return UIViewable(style:UIViewableStyle(height:height))
 }
 
-func hr(padding:UIViewablePadding, color:UIColor) -> UIView {
-    return UIViewable()
-        < UIViewable().height(padding.top)>>
-        < UIViewable().height(0.5).backgroundColor(color)>>
-        < UIViewable().height(padding.bottom)>>
+func hr(padding padding:UIPadding, color:UIColor) -> UIViewable {
+    return div(style(padding:padding),
+        div(style(height:0.5, backgroundColor:color))
+    )
 }
 
 func label(text:String, lineBreakMode:NSLineBreakMode = .ByWordWrapping, numberOfLines:Int = 0, font:UIFont? = nil, style:UIViewableStyle = UIViewableStyle(), appearance:((UILabel) -> Void)? = nil) -> UIViewable {
@@ -150,26 +167,38 @@ func label(inout id:UIViewable?, text:String, lineBreakMode:NSLineBreakMode = .B
     return viewable
 }
 
+func image(name:String, style:UIViewableStyle, appearance:((UIImageView) -> Void)? = nil) -> UIViewable {
+    var viewable:UIViewable?
+    return image(&viewable, name:name, style:style, appearance:appearance)
+}
+
 func image(name:String, contentMode:UIViewContentMode? = .ScaleAspectFit) -> UIViewable {
     var viewable:UIViewable?
     return image(&viewable, name:name, contentMode:contentMode)
 }
 
-func image(inout id:UIViewable?, name:String, contentMode:UIViewContentMode? = .ScaleAspectFit, width:CGFloat? = nil, height:CGFloat? = nil) -> UIViewable {
+func image(inout id:UIViewable?, name:String, contentMode:UIViewContentMode? = .ScaleAspectFit, var style:UIViewableStyle = UIViewableStyle(), appearance:((UIImageView) -> Void)? = nil) -> UIViewable {
     let imageView = UIImageView()
     imageView.contentMode = contentMode!
     imageView.clipsToBounds = true
     
-    if let width = width {
-        imageView.frame.size.width = width
+    if style.display == nil {
+        style.display = .Inline
     }
-    if let height = height {
-        imageView.frame.size.height = height
+    if style.width != -1 {
+        imageView.frame.size.width = style.width
+    }
+    if style.height != -1 {
+        imageView.frame.size.height = style.height
     }
     imageView.image = UIImage(named: name)
     
-    let viewable = UIViewable(style: UIViewableStyle(display:.Inline, width:imageView.frame.width, height:imageView.frame.height))
+    let viewable = UIViewable(style:style)
     viewable.addSubview(imageView)
+    
+    if let appearance = appearance {
+        appearance(imageView)
+    }
     
     id = viewable
     
@@ -194,20 +223,24 @@ func input(inout id:UITextField?, placeholder:String, style:((UITextField) -> Vo
     
     let viewable = UIViewable(style:UIViewableStyle(display:.Flex(.Row), height:textField.frame.height))
     viewable.addSubview(textField)
-    
+
     id = textField
-    
+
     return viewable
 }
 
-func segment(display:UIViewableDisplay? = .Inline, items:[String], color:UIColor?) -> UIViewable {
+func segment(var style:UIViewableStyle = UIViewableStyle(), items:[String], color:UIColor?) -> UIViewable {
     let segmentedControl = UISegmentedControl(items: items)
     segmentedControl.selectedSegmentIndex = 0
     if let color = color {
         segmentedControl.tintColor = color
     }
     
-    let viewable = UIViewable(style:UIViewableStyle(display:display))
+    if style.display == nil {
+        style.display = .Inline
+    }
+    
+    let viewable = UIViewable(style:style)
     viewable.addSubview(segmentedControl)
     
     return viewable
@@ -220,9 +253,6 @@ func padding(top top:CGFloat = 0, right:CGFloat = 0, bottom:CGFloat = 0, left:CG
 
 // UIViewableStyle helper functions
 typealias style = UIViewableStyle
-//func style(display:UIViewableDisplay? = nil, align:UIViewableAlign? = nil, width:CGFloat? = -1, height:CGFloat? = -1, backgroundColor:UIColor? = nil) -> UIViewableStyle {
-//    return UIViewableStyle(display:display, align:align, width:width!, height:height!, backgroundColor:backgroundColor)
-//}
 
 extension UIView {
     static var view:UIView {
@@ -256,6 +286,7 @@ extension UIView {
         static var maxWidth = "maxWidth"
         static var maxHeight = "maxHeight"
         static var flexWidth = "flexWidth"
+        static var flexHeight = "flexHeight"
     }
     var maxWidth:CGFloat {
         get {
@@ -291,6 +322,18 @@ extension UIView {
         
         set(value) {
             objc_setAssociatedObject(self,&AssociatedKeys.flexWidth,value,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    var flexHeight:Bool {
+        get {
+            if let flexHeight = objc_getAssociatedObject(self, &AssociatedKeys.flexHeight) as? Bool {
+                return flexHeight
+            }
+            return false
+        }
+        
+        set(value) {
+            objc_setAssociatedObject(self,&AssociatedKeys.flexHeight,value,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
@@ -493,17 +536,21 @@ class UIViewable: UIView {
         }
         self.needsLayout = true
     }
-    
+
     override func layoutSubviews() {
         if (!self.needsLayout) {
             return
         }
         self.needsLayout = false
-        
-        // TODO? UIButton
+
+        // TODO? UIButton, UIImage
         if !self.flexWidth && self.subviews.count == 1 && (self.subviews[0] as? UILabel != nil) {
             self.frame.size = CGSizeZero
             self.subviews[0].frame.size = CGSizeZero
+        }
+        
+        if self.maxHeight == 0 && !self.flexHeight {
+            self.frame.size.height = 0
         }
 
 //        print("layoutSubviews \(String(ObjectIdentifier(self).uintValue)) \(self.display)")
@@ -513,13 +560,13 @@ class UIViewable: UIView {
             if let superview = self.superview as? UIViewable {
                 self.frame.size.width -= superview.padding.left
                 self.frame.size.width -= superview.padding.right
-                
+
                 if superview.display == .Inline {
                     self.needsLayout = true
                 }
             }
         }
-
+        
         // TODO Flex columns and rows need to layout subviews to determine the appropriate height and width.
         // If subviews are larger than the alloted flex height and width? the views are clipped
         if (self.display == .Flex(.Row) && self.superview != nil) {
@@ -542,7 +589,7 @@ class UIViewable: UIView {
                     subviewsWidth += subview.frame.width
                 }
             }
-            
+
             subviewsWidth = subviewsWidth + self.padding.left + self.padding.right
 
             let flexibleSubviewsWidth = (self.frame.size.width - subviewsWidth) / CGFloat(flexibleSubviews.count)
@@ -550,7 +597,7 @@ class UIViewable: UIView {
                 subview.frame.size.width = flexibleSubviewsWidth
             }
         } else if (self.display == .Flex(.Column) && self.superview != nil) {
-            if (self.maxHeight == 0) {
+            if (!self.flexHeight && self.maxHeight == 0) {
                 self.frame.size.height = self.superview!.frame.height
             }
 
@@ -570,7 +617,7 @@ class UIViewable: UIView {
                 subview.frame.size.height = flexibleSubviewsHeight
             }
         }
-
+        
         var width:CGFloat = 0
         var height:CGFloat = 0
         height += self.padding.top
@@ -579,9 +626,10 @@ class UIViewable: UIView {
             let subview = self.subviews[i] as UIView
 
             if let viewable = subview as? UIViewable {
-                // .Flew.Row sets the flexWidth of the subview to true
                 if self.display == .Flex(.Row) {
                     viewable.flexWidth = true
+                } else if self.display == .Flex(.Column) {
+                    viewable.flexHeight = true
                 }
             }
 
@@ -653,8 +701,7 @@ class UIViewable: UIView {
 
         height += self.padding.bottom
 
-        // TODO Refactor so orientation change can decrease the height
-        if (self.frame.height < height) {
+        if self.frame.height < height {
             self.frame.size.height = height
         }
 
@@ -668,7 +715,7 @@ class UIViewable: UIView {
                 } else if viewable.align == .Top(.Right) {
                     viewable.frame.origin.x = self.frame.width - self.padding.right - viewable.frame.width
                 } else if viewable.align == .Middle(.Left) {
-                    viewable.frame.origin.y = self.frame.height - viewable.frame.height - (self.frame.height - viewable.frame.height) / 2
+                    viewable.frame.origin.y = self.frame.height - viewable.frame.height - (self.frame.height - self.padding.top + self.padding.bottom - viewable.frame.height) / 2
                 } else if viewable.align == .Middle(.Center) {
                     viewable.frame.origin.x = self.frame.width - viewable.frame.width - (self.frame.width - viewable.frame.width) / 2
                     viewable.frame.origin.y = self.frame.height - viewable.frame.height - (self.frame.height - viewable.frame.height) / 2
