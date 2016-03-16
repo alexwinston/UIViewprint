@@ -563,7 +563,7 @@ class ViewController: UITableViewableController {
 
 ### Example 6
 
-This example demonstrates how layout compares to the popular [Stevia](https://github.com/s4cha/Stevia) framework.  UIViewprint currently doesn't support the concept of padding.  If this were to be added this example could be further simplified.
+This example demonstrates how layout compares to the popular [Stevia](https://github.com/s4cha/Stevia) framework.
 
 ```swift
 var emailTextField:UITextField?
@@ -589,10 +589,6 @@ override func viewDidLoad() {
         )
     )
 }
-
-func roundedCorners(textField:UITextField) {
-    textField.borderStyle = .RoundedRect
-}
     
 func login(button:UIButton) {
     print(emailTextField!.text)
@@ -608,7 +604,7 @@ func largeFontRoundedCorners(view:UIView) {
 }
 ```
 
-Of particular interest is the ability to associate wrapped components to variables via inout parameters. It is also easy to bind touch events to targets within the markup directly via "touch:login" as a parameter to the .button function. Additionally function callbacks allow styles to be reused across components and views.
+Of particular interest is the ability to associate wrapped components to variables via inout parameters. It is also easy to bind touch events to target functions within the markup directly via the "touch:" parameter. Additionally function callbacks allow styles to be reused across components and views.
 
 ![UIViewprint Example 6](images/example6.png)
 
